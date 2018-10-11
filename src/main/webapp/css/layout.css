@@ -1,0 +1,83 @@
+.downstream-table {
+    border-spacing: 0;
+}
+
+.downstream-table > tbody > tr > td {
+    padding: 0;
+    height: 0;
+}
+
+.downstream-table a {
+    text-decoration: none;
+}
+
+.downstream-table a:hover {
+    text-decoration: underline;
+}
+
+.downstream-table span {
+    white-space: nowrap;
+    font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: black;
+    text-decoration: none;
+    line-height: 2em;
+    font-size: 1em;
+    padding: 0.0em 0em 0em 0.5em;
+}
+
+.arrow-wrapper {
+    height: 100%;
+    width: 2.6em;
+    display: table; /* Solves some minor padding issues i Chrome. */
+}
+
+.build-wrapper {
+    display: inline-block;
+    height: 2.6em;
+}
+
+.build-info {
+    margin: 0.3em 0;
+    height: 2.0em;
+    border-radius: 4px;
+    position: relative;
+}
+
+.build-info.SELECTED {
+    border: 2px dashed rgba(0, 0, 0, 0.8) !important;
+}
+
+.build-info.RED {
+    background: #ffdbdb;
+    box-shadow: 0 0 5px 0.5px rgba(255, 50, 0, 0.8);
+    border: 1px solid rgba(255, 50, 0, 0.8);
+}
+
+.build-info.BLUE {
+    background: #dbfbc9;
+    border: 1px solid rgba(80, 120, 50, 0.8);
+}
+
+.build-info.YELLOW {
+    background: #ffdeb0;
+    border: 1px solid rgba(255, 150, 0, 0.8);
+}
+
+.build-info.ABORTED,
+.build-info.DISABLED,
+.build-info.NOT_BUILT {
+    background: #ddd;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.build-info.ANIME:after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .1;
+    border-radius: 4px;
+    background: url("../images/in_progress.gif");
+}

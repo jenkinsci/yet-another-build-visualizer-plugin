@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
+  <artifactId>yet-another-build-visualizer</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>hpi</packaging>
+
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>2.37</version>
+    <relativePath/>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.gmaven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <configuration>
+          <providerSelection>1.8</providerSelection>
+          <source/>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <scm>
+    <connection>
+      scm:git:https://github.com/GLundh/yet-another-build-visualizer.git
+    </connection>
+    <developerConnection>
+      scm:git:https://github.com/GLundh/yet-another-build-visualizer.git
+    </developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <jenkins.version>2.73.3</jenkins.version>
+    <java.level>8</java.level>
+    <jenkins-test-harness.version>2.38</jenkins-test-harness.version>
+    <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>
+  </properties>
+
+  <name>Yet Another Build Visualizer</name>
+  <description>Visualises the flow of downstream builds on the project and build pages.</description>
+  <url>axis.com</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
+      <artifactId>downstream-build-cache</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
