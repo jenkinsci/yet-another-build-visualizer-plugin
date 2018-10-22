@@ -9,6 +9,10 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
+  <name>Yet Another Build Visualizer</name>
+  <description>Visualises the flow of downstream builds on the project and build pages.</description>
+  <url>axis.com</url>
+
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
@@ -53,16 +57,20 @@
     <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>
   </properties>
 
-  <name>Yet Another Build Visualizer</name>
-  <description>Visualises the flow of downstream builds on the project and build pages.</description>
-  <url>axis.com</url>
-
   <licenses>
     <license>
       <name>MIT License</name>
       <url>http://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
+
+  <developers>
+    <developer>
+      <id>GustafL</id>
+      <name>Gustaf Lundh</name>
+      <email>gustaf.lundh@axis.com</email>
+    </developer>
+  </developers>
 
   <repositories>
     <repository>
