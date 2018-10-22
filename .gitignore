@@ -2,3 +2,9 @@
 .idea
 target
 work
+.classpath
+.factorypath
+.project
+.settings/
+*.releaseBackup
+release.properties
