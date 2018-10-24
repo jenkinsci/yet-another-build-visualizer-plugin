@@ -34,6 +34,7 @@
 .build-wrapper {
     display: inline-block;
     height: 2.6em;
+    width: 100%;
 }
 
 .build-info {
