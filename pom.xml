@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
@@ -8,14 +10,15 @@
   <packaging>hpi</packaging>
 
   <name>Yet Another Build Visualizer</name>
-  <description>Visualises the flow of downstream builds on the project and build pages.</description>
+  <description>Visualises the flow of downstream builds on the project and build pages.
+  </description>
   <url>axis.com</url>
 
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
     <version>2.37</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <build>
@@ -25,7 +28,7 @@
         <artifactId>gmaven-plugin</artifactId>
         <configuration>
           <providerSelection>1.8</providerSelection>
-          <source />
+          <source/>
         </configuration>
       </plugin>
       <plugin>
@@ -33,6 +36,15 @@
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <tagNameFormat>v@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkCount>1</forkCount>
+          <reuseForks>true</reuseForks>
+          <argLine>-Xmx2048m</argLine>
         </configuration>
       </plugin>
     </plugins>
@@ -81,7 +93,7 @@
     <dependency>
       <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
       <artifactId>downstream-build-cache</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
     </dependency>
   </dependencies>
 </project>
