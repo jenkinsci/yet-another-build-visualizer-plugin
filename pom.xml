@@ -10,7 +10,7 @@
   <name>Yet Another Build Visualizer</name>
   <description>Visualises the flow of downstream builds on the project and build pages.
   </description>
-  <url>axis.com</url>
+  <url>https://wiki.jenkins.io/display/JENKINS/Yet+Another+Build+Visualizer+Plugin</url>
 
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
@@ -50,12 +50,13 @@
 
   <scm>
     <connection>
-      scm:git:https://github.com/GLundh/yet-another-build-visualizer.git
+      scm:git:https://github.com/jenkinsci/yet-another-build-visualizer-plugin
     </connection>
     <developerConnection>
-      scm:git:https://github.com/GLundh/yet-another-build-visualizer.git
+      scm:git:https://github.com/jenkinsci/yet-another-build-visualizer-plugin
     </developerConnection>
     <tag>HEAD</tag>
+    <url>https://github.com/jenkinsci/yet-another-build-visualizer-plugin</url>
   </scm>
 
   <properties>
