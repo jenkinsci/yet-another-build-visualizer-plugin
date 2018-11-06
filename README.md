@@ -2,7 +2,7 @@
 A Jenkins plugin that allows visualization of the build flow of upstream and
 downstream builds in Jenkins.
 
-![Screenshot](https://raw.githubusercontent.com/GLundh/yet-another-build-visualizer/master/static/yabv.png)
+![Screenshot](https://raw.githubusercontent.com/jenkinsci/yet-another-build-visualizer-plugin/master/static/yabv.png)
 
 This plugin provides a few features not found in any current build flow
 visualizers:
