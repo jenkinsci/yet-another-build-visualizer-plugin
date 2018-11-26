@@ -90,7 +90,7 @@ public class BuildFlowAction implements Action {
     }
   }
 
-  @Extension
+  @Extension(ordinal = 1000)
   public static class ProjectActionFactory extends TransientActionFactory<Job> {
 
     @Override
