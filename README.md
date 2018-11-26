@@ -10,9 +10,6 @@ visualizers:
 * It displays not only downstream builds, but the *full* build flow. In the screenshot above, the
 build currently visited is highlighted using a thick dashed border.
 
-  In the screenshot above, the selected build is highlighted using a thick
-dashed border.
-
 * Since the full chain is always shown, the plugin provides easy and fast navigation
 between all executed builds in the pipeline.
 
