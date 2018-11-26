@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 /**
  * An expandable and variable width matrix backed by ArrayLists.
  *
- * <p>Every cell in the Matrix is backed by an Entry<T>.
+ * <p>Every cell in the Matrix is backed by an Entry&lt;T&gt;.
  *
  * @param <T> Data type of Entry payload.
  */
