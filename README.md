@@ -7,8 +7,8 @@ downstream builds in Jenkins.
 This plugin provides a few features not found in any current build flow
 visualizers:
 
-* It displays not only downstream builds, but the full build flow from the very first
-build in the complete pipeline, regardless of which build you are currently visiting.
+* It displays not only downstream builds, but the *full* build flow. In the screenshot above, the
+build currently visited is highlighted using a thick dashed border.
 
   In the screenshot above, the selected build is highlighted using a thick
 dashed border.
