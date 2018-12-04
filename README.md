@@ -1,4 +1,4 @@
-# yet-another-build-visualizer
+# Yet Another Build Visualizer Plug-in
 A Jenkins plugin that allows visualization of the build flow of upstream and
 downstream builds in Jenkins.
 
