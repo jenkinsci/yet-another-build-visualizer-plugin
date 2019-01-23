@@ -22,10 +22,8 @@ downstream builds.
 additional meta-data, hence it is totally non-destructive and safe for removal without
 risking serialization issues.
 
-## Contributions
-Please use google-java-format with default settings for code formatting. PRs containing code
-that is not formatted correctly will not be merged. Any .groovy file should be checked with
-CodeNarc (latest stable), using the rules as defined in configs/codenarc_rules.txt.
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## Plug-in Dependencies
 This plugin is dependent on the *Downstream Build Cache* plugin, which keeps
