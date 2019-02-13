@@ -22,6 +22,9 @@ downstream builds.
 additional meta-data, hence it is totally non-destructive and safe for removal without
 risking serialization issues.
 
+## Changelog
+See [CHANGELOG.md](CHANGELOG.md) for release details.
+
 ## Contributing
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
