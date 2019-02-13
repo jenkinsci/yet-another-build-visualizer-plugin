@@ -1,6 +1,7 @@
 package com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowAction
 
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix
+import hudson.model.Queue
 import hudson.model.Run
 
 import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
@@ -29,7 +30,11 @@ table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
         }
         td {
           if (cell?.data) {
-            drawBuildInfo(cell.data)
+            if (cell.data instanceof Run) {
+              drawBuildInfo(cell.data)
+            } else if (cell.data instanceof Queue.Item) {
+              drawQueueItemInfo(cell.data)
+            }
           }
         }
       }
@@ -44,6 +49,16 @@ private void drawBuildInfo(Run build) {
     div(class: "build-info ${colorClasses}") {
       a(class: 'build-number model-link inside', href: "${rootURL}/${build.url}") {
         span("${build.parent.name} ${build.displayName}")
+      }
+    }
+  }
+}
+
+private void drawQueueItemInfo(Queue.Item item) {
+  div(class: 'build-wrapper') {
+    div(class: "build-info NOTBUILT ANIME") {
+      a(class: 'build-number model-link inside', href: "${rootURL}/${item.task.url}") {
+        span("${item.task.displayName} (Queued)")
       }
     }
   }

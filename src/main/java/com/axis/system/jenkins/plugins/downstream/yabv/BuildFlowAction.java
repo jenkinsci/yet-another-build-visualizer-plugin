@@ -5,9 +5,16 @@ import static com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.layo
 import com.axis.system.jenkins.plugins.downstream.cache.BuildCache;
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix;
 import hudson.Extension;
-import hudson.model.*;
+import hudson.model.Action;
+import hudson.model.Cause;
+import hudson.model.CauseAction;
+import hudson.model.Job;
+import hudson.model.Queue;
+import hudson.model.Run;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import javax.annotation.Nonnull;
 import jenkins.model.Jenkins;
 import jenkins.model.TransientActionFactory;
@@ -57,8 +64,17 @@ public class BuildFlowAction implements Action {
     if (target == null) {
       return null;
     }
+    final Queue.Item[] items = Queue.getInstance().getItems();
     return layoutTree(
-        getRootUpstreamBuild(target), b -> BuildCache.getCache().getDownstreamBuilds(b));
+        (Object) getRootUpstreamBuild(target),
+        b -> {
+          List<Object> result = new ArrayList<>();
+          if (b instanceof Run) {
+            result.addAll(BuildCache.getCache().getDownstreamBuilds((Run) b));
+            result.addAll(BuildCache.getDownstreamQueueItems(items, (Run) b));
+          }
+          return result;
+        });
   }
 
   @Override
