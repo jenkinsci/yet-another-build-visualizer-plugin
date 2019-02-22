@@ -22,6 +22,20 @@ downstream builds.
 additional meta-data, hence it is totally non-destructive and safe for removal without
 risking serialization issues.
 
+## Usage
+
+* No configuration is needed, just install the plugin and you are ready to go.
+
+* The "Build Flow"-graph (as seen in the screenshot above) can be found on the Project page
+(shows the graph for the latest build) or on the Build status page. The graph is only shown for
+builds that has at least one upstream or downstream job.
+
+* Click the build links to go to the status page of that build. Note that all links are decorated
+with drop down menus, allowing quick access to common pages (console, parameters info, etc).
+
+* This plugin currently only work for Classic UI. Blue Ocean support may follow in future
+versions.
+
 ## Changelog
 See [CHANGELOG.md](CHANGELOG.md) for release details.
 
