@@ -42,6 +42,9 @@ public class BuildFlowAction implements Action {
 
   private static Run getUpstreamBuild(@Nonnull Run build) {
     CauseAction causeAction = build.getAction(CauseAction.class);
+    if (causeAction == null) {
+      return null;
+    }
     for (Cause cause : causeAction.getCauses()) {
       if (cause instanceof Cause.UpstreamCause) {
         Cause.UpstreamCause upstreamCause = (Cause.UpstreamCause) cause;
