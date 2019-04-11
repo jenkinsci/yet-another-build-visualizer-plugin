@@ -48,7 +48,7 @@ private void drawBuildInfo(Run build) {
     def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
     div(class: "build-info ${colorClasses}") {
       a(class: 'build-number model-link inside', href: "${rootURL}/${build.url}") {
-        span("${build.parent.name} ${build.displayName}")
+        span("${build.parent.name} ${build.fullDisplayName}")
       }
     }
   }
