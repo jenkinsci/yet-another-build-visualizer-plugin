@@ -18,7 +18,7 @@ table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
   if (!matrix || (matrix.get().size() == 1 && matrix.get(0).size() == 1)) {
     return
   }
-  Set<Job> jobs = matrix.getCellDataAsSet().collect() { data ->
+  Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
     if (data instanceof Run) {
       data.parent
     } else if (data instanceof Queue.Item) {
@@ -54,7 +54,7 @@ table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
   }
 }
 
-private void drawCellData(Object data, nameNormalizer) {
+private void drawCellData(Object data, NameNormalizer nameNormalizer) {
   div(class: 'build-wrapper') {
     if (data instanceof Run) {
       drawBuildInfo(data, nameNormalizer)
@@ -64,7 +64,7 @@ private void drawCellData(Object data, nameNormalizer) {
   }
 }
 
-private void drawBuildInfo(Run build, nameNormalizer) {
+private void drawBuildInfo(Run build, NameNormalizer nameNormalizer) {
   def color = build.iconColor
   def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
   div(class: "build-info ${colorClasses}") {
@@ -74,8 +74,8 @@ private void drawBuildInfo(Run build, nameNormalizer) {
   }
 }
 
-private void drawQueueItemInfo(Queue.Item item, nameNormalizer) {
-  div(class: "build-info NOTBUILT ANIME") {
+private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer) {
+  div(class: 'build-info NOTBUILT ANIME') {
     a(class: 'model-link inside', href: "${rootURL}/${item.task.url}") {
       span("${nameNormalizer.getNormalizedName(item.task)} (Queued)")
     }

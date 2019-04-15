@@ -32,7 +32,6 @@ public class NameNormalizer {
     for (T item : items) {
       for (int nrOfParents = 0; ; nrOfParents++) {
         String name = nameFunc.name(item);
-
         String formattedName = getFullerDisplayName(item, nrOfParents, nameFunc, parentFunc);
         // Every proposed display name is added to the reserved list. If we stumble upon an already
         // reserved name, we have a job name collision. This means the name is not unique enough to
@@ -49,7 +48,6 @@ public class NameNormalizer {
         }
       }
     }
-
     return blacklist;
   }
 
