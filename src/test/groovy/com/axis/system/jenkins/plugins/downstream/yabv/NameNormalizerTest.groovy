@@ -7,21 +7,20 @@ import org.junit.Test
  * @author Gustaf Lundh <gustaf.lundh@axis.com>
  */
 class NameNormalizerTest {
-  private final static NAME_FUNC = { n -> n.name }
-  private final static PARENT_FUNC = { n ->
-    n.parents ? item(n.parents[0], *n.parents.drop(1)) : null }
+  private final static NAME_FUNC = { n -> n[0] }
+  private final static PARENT_FUNC = { n -> n.size() > 1 ? n.drop(1) : null }
 
   @Test
   void singleItemNoCollisions() {
-    def itemA = item('a', 'b', 'root')
+    def itemA = ['a', 'b', 'root']
     def nameNormalizer = new NameNormalizer([itemA].toSet(), NAME_FUNC, PARENT_FUNC)
     assert nameNormalizer.getNormalizedName(itemA) == 'a'
   }
 
   @Test
   void multipleItemsNoCollisions() {
-    def itemA = item('a', 'b', 'root')
-    def itemB = item('b', 'b', 'root')
+    def itemA = ['a', 'b', 'root']
+    def itemB = ['b', 'b', 'root']
 
     def nameNormalizer = new NameNormalizer([itemA, itemB].toSet(), NAME_FUNC, PARENT_FUNC)
     assert nameNormalizer.getNormalizedName(itemA) == 'a'
@@ -30,8 +29,8 @@ class NameNormalizerTest {
 
   @Test
   void multipleItemsCollisions() {
-    def itemA = item('a', 'b', 'root')
-    def itemB = item('a', 'd', 'root')
+    def itemA = ['a', 'b', 'root']
+    def itemB = ['a', 'd', 'root']
 
     def nameNormalizer = new NameNormalizer([itemA, itemB].toSet(), NAME_FUNC, PARENT_FUNC)
     assert nameNormalizer.getNormalizedName(itemA) == 'b/a'
@@ -40,15 +39,23 @@ class NameNormalizerTest {
 
   @Test
   void rootCollisions() {
-    def itemA = item('a', 'b', 'root')
-    def itemB = item('a', 'root')
+    def itemA = ['a', 'b', 'root']
+    def itemB = ['a', 'root']
 
     def nameNormalizer = new NameNormalizer([itemA, itemB].toSet(), NAME_FUNC, PARENT_FUNC)
     assert nameNormalizer.getNormalizedName(itemB) == '/a'
     assert nameNormalizer.getNormalizedName(itemA) == 'b/a'
   }
 
-  static Map item(String name, String... parents) {
-    return ['name': name, 'parents': parents as List]
+  @Test
+  void innocentBystander() {
+    def itemA = ['a', 'b', 'root']
+    def itemB = ['a', 'd', 'root']
+    def itemC = ['b', 'd', 'root']
+
+    def nameNormalizer = new NameNormalizer([itemA, itemB].toSet(), NAME_FUNC, PARENT_FUNC)
+    assert nameNormalizer.getNormalizedName(itemA) == 'b/a'
+    assert nameNormalizer.getNormalizedName(itemB) == 'd/a'
+    assert nameNormalizer.getNormalizedName(itemC) == 'b'
   }
 }
