@@ -33,7 +33,7 @@ public class NameNormalizer<T> {
     Set<String> blacklist = new HashSet<>(), reserved = new HashSet<>();
     for (T item : items) {
       List<String> nameSegments = new ArrayList<>();
-      while (item != null) {
+      for (; item != null; item = parentFunc.parent(item)) {
         nameSegments.add(0, parentFunc.parent(item) != null ? nameFunc.name(item) : ROOT_NAME);
         String formattedName = String.join(NAME_SEPARATOR, nameSegments);
         // Every proposed display name is added to the reserved list. If we stumble upon an already
@@ -49,7 +49,6 @@ public class NameNormalizer<T> {
         } else {
           blacklist.add(formattedName);
         }
-        item = parentFunc.parent(item);
       }
     }
     return blacklist;
