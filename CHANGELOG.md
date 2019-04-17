@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6
+* **Feature:** Ensure that job names are unique enough to be easily identifiable (especially helpful when rendering **multibranch pipeline** builds).
+
+
 ## v1.5.1
 * Fix: NPE if CauseAction was missing from build.
 
