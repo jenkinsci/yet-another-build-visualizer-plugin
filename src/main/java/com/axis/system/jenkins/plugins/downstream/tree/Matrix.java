@@ -1,7 +1,9 @@
 package com.axis.system.jenkins.plugins.downstream.tree;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -41,6 +43,23 @@ public class Matrix<T> {
    */
   public Entry<T> get(int rowPos, int colPos) {
     return matrix.get(rowPos).get(colPos);
+  }
+
+  /**
+   * Fetches all cell data and returns as Set
+   *
+   * @return Set of all cell data in the built Matrix. No null included in Set.
+   */
+  public Set<T> getCellDataAsSet() {
+    Set<T> resultSet = new HashSet<>();
+    for(List<Entry<T>> row : matrix) {
+      for (Entry<T> col : row) {
+        if (col != null && col.data != null) {
+          resultSet.add(col.data);
+        }
+      }
+    }
+    return resultSet;
   }
 
   /**

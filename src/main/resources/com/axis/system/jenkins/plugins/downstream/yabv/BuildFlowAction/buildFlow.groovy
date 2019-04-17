@@ -1,6 +1,9 @@
 package com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowAction
 
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix
+import com.axis.system.jenkins.plugins.downstream.yabv.NameNormalizer
+import hudson.model.Item
+import hudson.model.Job
 import hudson.model.Queue
 import hudson.model.Run
 
@@ -15,6 +18,19 @@ table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
   if (!matrix || (matrix.get().size() == 1 && matrix.get(0).size() == 1)) {
     return
   }
+  Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
+    if (data instanceof Run) {
+      data.parent
+    } else if (data instanceof Queue.Item) {
+      data.task
+    }
+  }.toSet()
+
+  NameNormalizer nameNormalizer = new NameNormalizer(jobs,
+      { it.displayName },
+      { it instanceof Item ? it.parent : null }
+  )
+
   tr {
     th(align: 'left', colspan: '100%') {
       h2('Build Flow')
@@ -30,11 +46,7 @@ table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
         }
         td {
           if (cell?.data) {
-            if (cell.data instanceof Run) {
-              drawBuildInfo(cell.data)
-            } else if (cell.data instanceof Queue.Item) {
-              drawQueueItemInfo(cell.data)
-            }
+            drawCellData(cell.data, nameNormalizer)
           }
         }
       }
@@ -42,24 +54,30 @@ table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
   }
 }
 
-private void drawBuildInfo(Run build) {
+private void drawCellData(Object data, NameNormalizer nameNormalizer) {
   div(class: 'build-wrapper') {
-    def color = build.iconColor
-    def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
-    div(class: "build-info ${colorClasses}") {
-      a(class: 'build-number model-link inside', href: "${rootURL}/${build.url}") {
-        span("${build.parent.name} ${build.displayName}")
-      }
+    if (data instanceof Run) {
+      drawBuildInfo(data, nameNormalizer)
+    } else if (data instanceof Queue.Item) {
+      drawQueueItemInfo(data, nameNormalizer)
     }
   }
 }
 
-private void drawQueueItemInfo(Queue.Item item) {
-  div(class: 'build-wrapper') {
-    div(class: "build-info NOTBUILT ANIME") {
-      a(class: 'build-number model-link inside', href: "${rootURL}/${item.task.url}") {
-        span("${item.task.displayName} (Queued)")
-      }
+private void drawBuildInfo(Run build, NameNormalizer nameNormalizer) {
+  def color = build.iconColor
+  def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
+  div(class: "build-info ${colorClasses}") {
+    a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
+      span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
+    }
+  }
+}
+
+private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer) {
+  div(class: 'build-info NOTBUILT ANIME') {
+    a(class: 'model-link inside', href: "${rootURL}/${item.task.url}") {
+      span("${nameNormalizer.getNormalizedName(item.task)} (Queued)")
     }
   }
 }

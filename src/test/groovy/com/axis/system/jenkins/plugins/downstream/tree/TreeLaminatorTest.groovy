@@ -137,7 +137,7 @@ class TreeLaminatorTest {
   private static String entryToAsciiCell(Matrix.Entry<Map> entry) {
     StringBuilder sb = new StringBuilder()
     if (entry) {
-      sb.append(entry.arrow ? entry.arrow : " ")
+      sb.append(entry.arrow ? entry.arrow : ' ')
       if (entry.data) {
         sb.append(String.format('{%-10.10s}', entry.data.name))
       } else {
