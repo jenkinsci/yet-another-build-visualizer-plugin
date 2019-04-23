@@ -52,7 +52,7 @@ public class Matrix<T> {
    */
   public Set<T> getCellDataAsSet() {
     Set<T> resultSet = new HashSet<>();
-    for(List<Entry<T>> row : matrix) {
+    for (List<Entry<T>> row : matrix) {
       for (Entry<T> col : row) {
         if (col != null && col.data != null) {
           resultSet.add(col.data);
