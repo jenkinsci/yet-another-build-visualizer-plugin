@@ -1,4 +1,4 @@
-var buildFlowUpdateTimer = setInterval(loadBuildFlow, 5000);
+setInterval(loadBuildFlow, buildFlowRefreshInterval);
 
 function loadBuildFlow() {
   var xhttp = new XMLHttpRequest();
@@ -7,6 +7,6 @@ function loadBuildFlow() {
       document.getElementById("downstream-table").outerHTML = this.responseText;
     }
   };
-  xhttp.open("GET", "yabv/ajax", true);
+  xhttp.open("GET", "yabv/ajaxBuildFlow", true);
   xhttp.send();
 }
