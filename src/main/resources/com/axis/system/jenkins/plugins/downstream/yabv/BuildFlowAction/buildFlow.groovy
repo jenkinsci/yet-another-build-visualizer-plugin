@@ -9,11 +9,7 @@ import hudson.model.Run
 
 import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
-link(rel: 'stylesheet',
-    type: 'text/css',
-    href: "${rootURL}/plugin/yet-another-build-visualizer/css/layout.css")
-
-table(class: 'downstream-table', cellspacing: 0, cellpadding: 0) {
+table(id: 'downstream-table', cellspacing: 0, cellpadding: 0) {
   Matrix matrix = my.buildMatrix()
   if (!matrix || (matrix.get().size() == 1 && matrix.get(0).size() == 1)) {
     return

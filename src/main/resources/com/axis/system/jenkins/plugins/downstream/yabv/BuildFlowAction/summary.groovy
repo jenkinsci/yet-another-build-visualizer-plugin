@@ -1,3 +1,7 @@
 package com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowAction
 
-include(my, 'buildFlow.groovy')
+def t = namespace(lib.JenkinsTagLib.class)
+
+t.summary(icon: "/plugin/yet-another-build-visualizer/icons/summary-icon.png") {
+  include(my, 'buildFlowJsCss.groovy')
+}

@@ -1,21 +1,21 @@
-.downstream-table {
+#downstream-table {
     border-spacing: 0;
 }
 
-.downstream-table > tbody > tr > td {
+#downstream-table > tbody > tr > td {
     padding: 0;
     height: 0;
 }
 
-.downstream-table a {
+#downstream-table a {
     text-decoration: none;
 }
 
-.downstream-table a:hover {
+#downstream-table a:hover {
     text-decoration: underline;
 }
 
-.downstream-table span {
+#downstream-table span {
     white-space: nowrap;
     font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: black;

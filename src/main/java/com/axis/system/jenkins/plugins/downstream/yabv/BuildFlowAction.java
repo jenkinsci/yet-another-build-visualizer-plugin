@@ -11,13 +11,17 @@ import hudson.model.CauseAction;
 import hudson.model.Job;
 import hudson.model.Queue;
 import hudson.model.Run;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import jenkins.model.TransientActionFactory;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * Produces Transient Actions for visualizing the flow of downstream builds.
@@ -87,12 +91,18 @@ public class BuildFlowAction implements Action {
 
   @Override
   public String getUrlName() {
-    return null;
+    return "yabv";
   }
 
   @Override
   public String getIconFileName() {
     return null;
+  }
+
+  public void doAjaxBuildFlow(StaplerRequest req, StaplerResponse rsp)
+      throws IOException, ServletException {
+    rsp.setContentType("text/html;charset=UTF-8");
+    req.getView(this, "buildFlow.groovy").forward(req, rsp);
   }
 
   @Extension
