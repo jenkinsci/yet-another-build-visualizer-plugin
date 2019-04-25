@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.7
+* **Feature:** Automatically refresh Build Flow graph without reloading the full page (default interval: 10s).
+
 ## v1.6
 * **Feature:** Ensure that job names are unique enough to be easily identifiable (especially helpful when rendering **multibranch pipeline** builds).
 
