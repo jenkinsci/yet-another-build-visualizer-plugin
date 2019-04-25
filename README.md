@@ -2,10 +2,11 @@
 A Jenkins plugin that allows visualization of the build flow of upstream and
 downstream builds in Jenkins.
 
+## Screenshot
+
 ![Screenshot](https://raw.githubusercontent.com/jenkinsci/yet-another-build-visualizer-plugin/master/static/yabv.png)
 
-This plugin provides a few features not found in any current build flow
-visualizers:
+## Main Features
 
 * It displays not only downstream builds, but the *full* build flow. In the
   screenshot above, the build currently visited is highlighted using a thick
@@ -36,7 +37,7 @@ visualizers:
   links are decorated with drop down menus, allowing quick access to common
   pages (console, parameters info, etc).
 
-* This plugin currently only work for Classic UI. Blue Ocean support may follow
+* This plugin currently only supports Classic UI. Blue Ocean support may follow
   in future versions.
 
 * The intervals at which the Build Flow graph refreshes (default: *10000ms*) can
@@ -57,5 +58,5 @@ for details.
 
 ## Plug-in Dependencies
 This plugin is dependent on the *Downstream Build Cache* plugin, which keeps
-tracks of the upstream->downstream relationship of all builds in Jenkins.
+tracks of the upstream -> downstream relationship of all builds in Jenkins.
 
