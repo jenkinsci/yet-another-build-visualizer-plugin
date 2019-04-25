@@ -36,6 +36,11 @@ with drop down menus, allowing quick access to common pages (console, parameters
 * This plugin currently only work for Classic UI. Blue Ocean support may follow in future
 versions.
 
+* The intervals at which the Build Flow graph refreshes (default: *10000ms*) can be overridden using
+the Java System Property `yabv.buildFlowRefreshInterval`. The expected unit is ms. E.g.
+`-D yabv.buildFlowRefreshInterval=5000`. Notice that the unit suffix is not included. Set
+`yabv.buildFlowRefreshInterval=0` to completely disable the dynamic graph updates.
+
 ## Changelog
 See [CHANGELOG.md](CHANGELOG.md) for release details.
 

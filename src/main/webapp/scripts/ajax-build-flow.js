@@ -1,4 +1,9 @@
-setInterval(loadBuildFlow, buildFlowRefreshInterval);
+if (typeof buildFlowRefreshInterval !== 'undefined' &&
+  Number.isInteger(parseInt(buildFlowRefreshInterval)) &&
+  buildFlowRefreshInterval > 0) {
+  // For performance reasons, do not allow intervals smaller than 500.
+  setInterval(loadBuildFlow, Math.max(buildFlowRefreshInterval, 500));
+}
 
 function loadBuildFlow() {
   var xhttp = new XMLHttpRequest();
