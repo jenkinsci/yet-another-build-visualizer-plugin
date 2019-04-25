@@ -8,4 +8,4 @@ include(my, 'buildFlow.groovy')
 
 script("buildFlowRefreshInterval='${System.getProperty('yabv.buildFlowRefreshInterval', '10000')}'")
 script(src: "${rootURL}/plugin/yet-another-build-visualizer/scripts/ajax-build-flow.js",
-    type: "text/javascript")
+    type: 'text/javascript')
