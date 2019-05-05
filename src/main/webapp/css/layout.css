@@ -1,46 +1,38 @@
-#downstream-table {
-    border-spacing: 0;
+#downstream-grid {
+    display: grid;
+    height: fit-content;
+    height: -moz-fit-content;
+    width: fit-content;
+    width: -moz-fit-content;
 }
 
-#downstream-table > tbody > tr > td {
-    padding: 0;
-    height: 0;
-}
-
-#downstream-table a {
+#downstream-grid a {
+    display: inline-block;
     text-decoration: none;
 }
 
-#downstream-table a:hover {
+#downstream-grid a:hover {
     text-decoration: underline;
 }
 
-#downstream-table span {
-    white-space: nowrap;
+#downstream-grid span {
     font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: black;
     text-decoration: none;
-    line-height: 2em;
     font-size: 1em;
-    padding: 0.0em 0em 0em 0.5em;
 }
 
 .arrow-wrapper {
+    width: 2em;
     height: 100%;
-    width: 2.6em;
-    display: table; /* Solves some minor padding issues i Chrome. */
-}
-
-.build-wrapper {
-    display: inline-block;
-    height: 2.6em;
-    width: 100%;
 }
 
 .build-info {
     margin: 0.3em 0;
-    height: 2.0em;
+    font-size: 1em;
+    line-height: 1em;
     border-radius: 4px;
+    padding: 0.5em;
     position: relative;
 }
 

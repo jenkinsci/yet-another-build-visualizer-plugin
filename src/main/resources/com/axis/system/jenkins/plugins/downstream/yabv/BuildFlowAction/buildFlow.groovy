@@ -9,9 +9,10 @@ import hudson.model.Run
 
 import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
-table(id: 'downstream-table', cellspacing: 0, cellpadding: 0) {
-  Matrix matrix = my.buildMatrix()
-  if (!matrix || (matrix.get().size() == 1 && matrix.get(0).size() == 1)) {
+Matrix matrix = my.buildMatrix()
+div(id: 'downstream-grid',
+    style: "grid-template-columns: repeat(${matrix.getMaxRowWidth() * 2}, auto);") {
+  if (matrix.isEmpty() || matrix.numberOfCells == 1) {
     return
   }
   Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
@@ -27,64 +28,65 @@ table(id: 'downstream-table', cellspacing: 0, cellpadding: 0) {
       { it instanceof Item ? it.parent : null }
   )
 
-  tr {
-    th(align: 'left', colspan: '100%') {
-      h2('Build Flow')
-    }
+  div(style: 'grid-column: 1 / -1') {
+    h2('Build Flow')
   }
+  CssGridCoordinates gridCoords = new CssGridCoordinates()
   matrix.get().each { row ->
-    tr {
-      row.each { cell ->
-        td {
-          if (cell?.arrow) {
-            drawArrow(cell.arrow)
-          }
-        }
-        td {
-          if (cell?.data) {
-            drawCellData(cell.data, nameNormalizer)
-          }
-        }
+    gridCoords.row++
+    gridCoords.col = 1
+    row.each { cell ->
+      if (cell?.arrow) {
+        drawArrow(gridCoords, cell.arrow)
       }
+      gridCoords.col++
+      if (cell?.data) {
+        drawCellData(gridCoords, cell.data, nameNormalizer)
+      }
+      gridCoords.col++
     }
   }
 }
 
-private void drawCellData(Object data, NameNormalizer nameNormalizer) {
-  div(class: 'build-wrapper') {
-    if (data instanceof Run) {
-      drawBuildInfo(data, nameNormalizer)
-    } else if (data instanceof Queue.Item) {
-      drawQueueItemInfo(data, nameNormalizer)
-    }
+private void drawCellData(CssGridCoordinates gridCoords, Object data, NameNormalizer
+    nameNormalizer) {
+  if (data instanceof Run) {
+    drawBuildInfo(gridCoords, data, nameNormalizer)
+  } else if (data instanceof Queue.Item) {
+    drawQueueItemInfo(gridCoords, data, nameNormalizer)
   }
 }
 
-private void drawBuildInfo(Run build, NameNormalizer nameNormalizer) {
+private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormalizer
+    nameNormalizer) {
   def color = build.iconColor
   def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
-  div(class: "build-info ${colorClasses}") {
+  div(class: "build-info ${colorClasses}",
+      style: gridCoords.cssStyleString) {
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
       span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
     }
   }
 }
 
-private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer) {
-  div(class: 'build-info NOTBUILT ANIME') {
+private void drawQueueItemInfo(CssGridCoordinates gridCoords,
+                               Queue.Item item,
+                               NameNormalizer nameNormalizer) {
+  div(class: 'build-info NOTBUILT ANIME',
+      style: gridCoords.cssStyleString) {
     a(class: 'model-link inside', href: "${rootURL}/${item.task.url}") {
       span("${nameNormalizer.getNormalizedName(item.task)} (Queued)")
     }
   }
 }
 
-private void drawArrow(Arrow arrow) {
-  div(class: 'arrow-wrapper') {
+private void drawArrow(CssGridCoordinates gridCoords, Arrow arrow) {
+  div(class: 'arrow-wrapper',
+      style: gridCoords.cssStyleString) {
     svg(viewBox: '0 0 100 100',
-        height: '100%',
+        preserveAspectRatio: 'none',
         width: '100%',
-        style: 'display: block;',
-        preserveAspectRatio: 'none') {
+        height: '100%') {
       def pathDefinition
       switch (arrow) {
         case Arrow.NS:
@@ -112,5 +114,14 @@ private void drawArrow(Arrow arrow) {
           stroke: '#333',
           fill: 'transparent')
     }
+  }
+}
+
+class CssGridCoordinates {
+  int col = 1
+  int row = 1
+
+  String getCssStyleString() {
+    "grid-row-start: ${row}; grid-column-start: ${col}"
   }
 }
