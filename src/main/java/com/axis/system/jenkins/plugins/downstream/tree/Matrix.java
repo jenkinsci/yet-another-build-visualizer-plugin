@@ -45,6 +45,16 @@ public class Matrix<T> {
     return matrix.get(rowPos).get(colPos);
   }
 
+  /** @return the number of items in the row with largest size */
+  public int getMaxRowWidth() {
+    return matrix.stream().mapToInt(r -> r.size()).max().orElse(0);
+  }
+
+  /** @return if matrix is empty */
+  public boolean isEmpty() {
+    return matrix.isEmpty() || matrix.get(0).isEmpty();
+  }
+
   /**
    * Fetches all cell data and returns as Set
    *
@@ -60,6 +70,11 @@ public class Matrix<T> {
       }
     }
     return resultSet;
+  }
+
+  /** @return the total number of cell in the matrix including null cells */
+  public long getNumberOfCells() {
+    return matrix.stream().mapToInt(r -> r.size()).sum();
   }
 
   /**

@@ -69,7 +69,7 @@ public class BuildFlowAction implements Action {
 
   public Matrix buildMatrix() {
     if (target == null) {
-      return null;
+      return new Matrix();
     }
     final Queue.Item[] items = Queue.getInstance().getItems();
     return layoutTree(
