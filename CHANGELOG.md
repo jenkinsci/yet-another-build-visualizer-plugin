@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8
+* **Feature:** Try to resize Build Flow width to fit within page if possible.
+
 ## v1.7
 * **Feature:** Automatically refresh Build Flow graph without reloading the full page (default interval: 10s).
 
