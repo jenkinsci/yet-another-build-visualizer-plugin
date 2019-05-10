@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.8
+## v1.8
 * **Feature:** Try to resize Build Flow width to fit within page if possible.
 
 ## v1.7
