@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.8.1:
+* Fix: Drop down menu disappeared after Build Flow update.
+* Fix: Tweaked animation to make the text more readable.
+
 ## v1.8
 * **Feature:** Try to resize Build Flow width to fit within page if possible.
 
