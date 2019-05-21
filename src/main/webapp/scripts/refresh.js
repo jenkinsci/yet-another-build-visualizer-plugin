@@ -17,6 +17,6 @@ function loadBuildFlow() {
       Behaviour.applySubtree(newGrid);
     }
   };
-  xhttp.open("GET", "yabv/ajaxBuildFlow", true);
+  xhttp.open("GET", "yabv/buildFlow", true);
   xhttp.send();
 }

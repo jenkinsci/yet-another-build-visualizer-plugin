@@ -30,6 +30,9 @@ div(id: 'downstream-grid',
 
   div(style: 'grid-column: 1 / -1') {
     h2('Build Flow')
+    span(style: "font-size: 0.7em; ",
+        onclick: 'toggleDurationInfo();',
+        'Toggle Build Execution Time')
   }
   CssGridCoordinates gridCoords = new CssGridCoordinates()
   matrix.get().each { row ->
@@ -47,6 +50,9 @@ div(id: 'downstream-grid',
     }
   }
 }
+
+script(src: "${rootURL}/plugin/yet-another-build-visualizer/scripts/actions.js",
+    type: 'text/javascript')
 
 private void drawCellData(CssGridCoordinates gridCoords, Object data, NameNormalizer
     nameNormalizer) {
@@ -66,6 +72,8 @@ private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormali
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
       span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
     }
+    br()
+    span(class: 'duration-info', build.durationString)
   }
 }
 

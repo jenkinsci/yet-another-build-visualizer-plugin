@@ -99,7 +99,7 @@ public class BuildFlowAction implements Action {
     return null;
   }
 
-  public void doAjaxBuildFlow(StaplerRequest req, StaplerResponse rsp)
+  public void doBuildFlow(StaplerRequest req, StaplerResponse rsp)
       throws IOException, ServletException {
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);

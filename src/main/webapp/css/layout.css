@@ -15,11 +15,16 @@
     text-decoration: underline;
 }
 
-#downstream-grid span {
+#downstream-grid a span {
     font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: black;
     text-decoration: none;
-    font-size: 1em;
+}
+
+.duration-info {
+    font-size: 0.8em !important;
+    line-height: 0.8em !important;
+    display: none;
 }
 
 .arrow-wrapper {
