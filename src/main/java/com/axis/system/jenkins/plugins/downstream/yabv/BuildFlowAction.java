@@ -63,6 +63,12 @@ public class BuildFlowAction implements Action {
     return null;
   }
 
+  public boolean hasUpstreamOrDownstreamBuilds() {
+    return BuildCache.getCache().getDownstreamBuilds(target).size() > 0
+        || BuildCache.getDownstreamQueueItems(target).size() > 0
+        || getUpstreamBuild(target) != null;
+  }
+
   public Run getTarget() {
     return target;
   }
