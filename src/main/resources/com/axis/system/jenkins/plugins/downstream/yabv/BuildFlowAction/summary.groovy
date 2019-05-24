@@ -4,6 +4,6 @@ def t = namespace(lib.JenkinsTagLib)
 
 if (my.hasUpstreamOrDownstreamBuilds()) {
   t.summary(icon: '/plugin/yet-another-build-visualizer/icons/summary-icon.png') {
-    include(my, 'buildFlowRefresh.groovy')
+    include(my, 'buildFlowJsCss.groovy')
   }
 }

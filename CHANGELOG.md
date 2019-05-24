@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.9:
+* **Feature**: Toggle showing build execution times.
+* **Feature**: Fullscreen Build Flow. Append "/yabv" to project/build page url.
+
 ## v1.8.1:
 * Fix: Drop down menu disappeared after Build Flow update.
 * Fix: Tweaked animation to make the text more readable.
