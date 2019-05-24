@@ -63,6 +63,12 @@ public class BuildFlowAction implements Action {
     return null;
   }
 
+  public boolean hasUpstreamOrDownstreamBuilds() {
+    return BuildCache.getCache().getDownstreamBuilds(target).size() > 0
+        || BuildCache.getDownstreamQueueItems(target).size() > 0
+        || getUpstreamBuild(target) != null;
+  }
+
   public Run getTarget() {
     return target;
   }
@@ -99,7 +105,7 @@ public class BuildFlowAction implements Action {
     return null;
   }
 
-  public void doAjaxBuildFlow(StaplerRequest req, StaplerResponse rsp)
+  public void doBuildFlow(StaplerRequest req, StaplerResponse rsp)
       throws IOException, ServletException {
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);

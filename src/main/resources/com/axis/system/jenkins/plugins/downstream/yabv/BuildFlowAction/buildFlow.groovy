@@ -28,9 +28,12 @@ div(id: 'downstream-grid',
       { it instanceof Item ? it.parent : null }
   )
 
-  div(style: 'grid-column: 1 / -1') {
-    h2('Build Flow')
+  div(style: 'grid-column: 1 / -1; justify-self: right') {
+    a(id: 'duration-info-switch', href: '#', onclick: 'toggleDurationInfo(); return false;') {
+      span('Toggle Time')
+    }
   }
+
   CssGridCoordinates gridCoords = new CssGridCoordinates()
   matrix.get().each { row ->
     gridCoords.row++
@@ -47,6 +50,9 @@ div(id: 'downstream-grid',
     }
   }
 }
+
+script(src: "${rootURL}/plugin/yet-another-build-visualizer/scripts/actions.js",
+    type: 'text/javascript')
 
 private void drawCellData(CssGridCoordinates gridCoords, Object data, NameNormalizer
     nameNormalizer) {
@@ -66,6 +72,7 @@ private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormali
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
       span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
     }
+    span(class: 'duration-info', build.durationString)
   }
 }
 
