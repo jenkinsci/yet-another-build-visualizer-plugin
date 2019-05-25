@@ -2,7 +2,7 @@ function loadBuildFlow() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      var currentGrid = document.getElementById("downstream-grid");
+      var currentGrid = document.getElementById("build-flow-grid");
       var template = document.createElement("template");
       template.innerHTML = this.responseText;
       var newGrid = template.content.firstChild;
@@ -11,7 +11,10 @@ function loadBuildFlow() {
     }
   };
   var showDurationInfo = getCookie("yabv.showDurationInfo");
-  xhttp.open("GET", `yabv/buildFlow?showDurationInfo=${showDurationInfo}`, true);
+  var showBuildHistory = getCookie("yabv.showBuildHistory");
+  xhttp.open("GET",
+    `yabv/buildFlow?showDurationInfo=${showDurationInfo}&showBuildHistory=${showBuildHistory}`,
+    true);
   xhttp.send();
 }
 
@@ -48,6 +51,7 @@ function createOptionSwitch(name, option) {
 }
 
 createOptionSwitch("Toggle Time", "showDurationInfo");
+createOptionSwitch("Toggle Build History", "showBuildHistory");
 
 if (typeof buildFlowRefreshInterval !== 'undefined' &&
   Number.isInteger(parseInt(buildFlowRefreshInterval)) &&

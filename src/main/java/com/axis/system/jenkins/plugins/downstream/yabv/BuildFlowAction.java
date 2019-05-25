@@ -115,6 +115,8 @@ public class BuildFlowAction implements Action {
       throws IOException, ServletException {
     buildFlowOptions.setShowDurationInfo(
         Boolean.parseBoolean(req.getParameter("showDurationInfo")));
+    buildFlowOptions.setShowBuildHistory(
+        Boolean.parseBoolean(req.getParameter("showBuildHistory")));
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);
   }

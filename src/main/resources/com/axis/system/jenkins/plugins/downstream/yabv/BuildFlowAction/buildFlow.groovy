@@ -11,7 +11,7 @@ import hudson.model.Run
 import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
 Matrix matrix = my.buildMatrix()
-div(id: 'downstream-grid',
+div(id: 'build-flow-grid',
     style: "grid-template-columns: repeat(${matrix.getMaxRowWidth() * 2}, auto);") {
   if (matrix.isEmpty() || matrix.numberOfCells == 1) {
     return
@@ -66,6 +66,19 @@ private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormali
     }
     if (options.showDurationInfo) {
       span(class: 'duration-info', build.durationString)
+    }
+    if (options.showBuildHistory) {
+      div(class: "build-flow-build-history") {
+        currentBuild = build.previousBuild
+        for (int i = 0; i < 5 && currentBuild != null; i++) {
+          a(href: "${rootURL}/${currentBuild.url}") {
+            def currentColor = currentBuild.iconColor
+            div(class: "build-flow-build-history-dot build-info ${currentColor.name().replace('_', ' ')}",
+                tooltip: currentBuild.displayName)
+          }
+          currentBuild = currentBuild.previousBuild
+        }
+      }
     }
   }
 }
