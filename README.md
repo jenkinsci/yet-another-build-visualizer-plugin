@@ -6,7 +6,7 @@ downstream builds in Jenkins.
 
 ![Screenshot](https://raw.githubusercontent.com/jenkinsci/yet-another-build-visualizer-plugin/master/static/yabv.png)
 
-### With all info switches enabled
+*With all info switches enabled:*
 
 ![Screenshot](https://raw.githubusercontent.com/jenkinsci/yet-another-build-visualizer-plugin/master/static/yabv_toggles.png)
 
