@@ -1,8 +1,15 @@
 #build-flow-root {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: fit-content;
     width: -moz-fit-content;
+}
+
+#build-flow-root *,
+#build-flow-root *:before,
+#build-flow-root *:after {
+  box-sizing: inherit;
 }
 
 #build-flow-switches {
