@@ -31,9 +31,11 @@ import org.kohsuke.stapler.StaplerResponse;
 @SuppressWarnings("unused")
 public class BuildFlowAction implements Action {
   private final Run target;
+  private final BuildFlowOptions buildFlowOptions;
 
   private BuildFlowAction(Run run) {
     this.target = run;
+    this.buildFlowOptions = new BuildFlowOptions();
   }
 
   private static Run getRootUpstreamBuild(@Nonnull Run build) {
@@ -61,6 +63,10 @@ public class BuildFlowAction implements Action {
       }
     }
     return null;
+  }
+
+  public BuildFlowOptions getBuildFlowOptions() {
+    return buildFlowOptions;
   }
 
   public boolean hasUpstreamOrDownstreamBuilds() {
@@ -107,6 +113,10 @@ public class BuildFlowAction implements Action {
 
   public void doBuildFlow(StaplerRequest req, StaplerResponse rsp)
       throws IOException, ServletException {
+    buildFlowOptions.setShowDurationInfo(
+        Boolean.parseBoolean(req.getParameter("showDurationInfo")));
+    buildFlowOptions.setShowBuildHistory(
+        Boolean.parseBoolean(req.getParameter("showBuildHistory")));
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);
   }

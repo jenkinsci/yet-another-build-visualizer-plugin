@@ -1,4 +1,52 @@
-#downstream-grid {
+#build-flow-root {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    width: -moz-fit-content;
+}
+
+#build-flow-switches {
+    display: flex;
+    margin-bottom: 2px;
+}
+
+.build-flow-switch {
+    background-color: #aaa;
+    border-radius: 3px;
+    color: white !important;
+    font-size: 0.8em;
+    line-height: 0.8em;
+    margin-right: 4px;
+    padding: 4px;
+    text-decoration: none !important;
+}
+
+.build-flow-switch:hover {
+    background-color: #333;
+    text-decoration: none;
+}
+
+.build-flow-build-history {
+    display: flex;
+}
+
+.build-flow-build-history-dot {
+    border-radius: 3px !important;
+    box-shadow: 1px 1px 4px -2px black !important;
+    height: 0.9em;
+    margin: 4px 3px 2px 0px !important;
+    width: 1em;
+    z-index: 1;
+}
+
+.duration-info {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 0.9em !important;
+    line-height: 0.9em !important;
+    margin: 1px 0;
+}
+
+#build-flow-grid {
     display: grid;
     height: fit-content;
     height: -moz-fit-content;
@@ -6,58 +54,36 @@
     width: -moz-fit-content;
 }
 
-#downstream-grid a {
+#build-flow-grid a {
     display: inline-block;
     text-decoration: none;
 }
 
-#downstream-grid a:hover {
+#build-flow-grid a:hover {
     text-decoration: underline;
 }
 
-#downstream-grid a span {
-    font-family: "LatoLatinWeb", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+#build-flow-grid a span {
     color: black;
+    font-family: LatoLatinWeb, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-decoration: none;
 }
 
-#duration-info-switch span {
-    font-size: 0.8em;
-    border-radius: 3px;
-    background-color: #aaa;
-    color: white !important;
-    padding: 3px;
-}
-
-#duration-info-switch span:hover {
-    background-color: #333;
-}
-
-#duration-info-switch:hover {
-    text-decoration: none !important;
-}
-
-.duration-info {
-    font-size: 0.8em !important;
-    line-height: 0.9em !important;
-    display: none;
-}
-
 .arrow-wrapper {
-    width: 2em;
     height: 100%;
+    width: 2em;
 }
 
 .build-info {
-    margin: 0.3em 0;
-    font-size: 1em;
-    line-height: 1.2em;
     border-radius: 4px;
-    padding: 0.3em 0.3em 0.3em 0.4em;
-    position: relative;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    font-size: 1em;
+    justify-content: center;
+    line-height: 1.2em;
+    margin: 0.3em 0;
+    padding: 0.3em;
+    position: relative;
 }
 
 .build-info.SELECTED {
@@ -66,8 +92,8 @@
 
 .build-info.RED {
     background: #ffdbdb;
-    box-shadow: 0 0 5px 0.5px rgba(255, 50, 0, 0.8);
     border: 1px solid rgba(255, 50, 0, 0.8);
+    box-shadow: 0 0 3px 0px rgba(255, 50, 0, 0.8);
 }
 
 .build-info.BLUE {
@@ -88,14 +114,14 @@
 }
 
 .build-info.ANIME:after {
+    background: url("../images/in_progress.gif");
+    border-radius: 4px;
     content: " ";
+    height: 100%;
+    left: 0;
+    opacity: .07;
+    pointer-events: none;
     position: absolute;
     top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    opacity: .07;
-    border-radius: 4px;
-    pointer-events: none;
-    background: url("../images/in_progress.gif");
 }

@@ -1,6 +1,7 @@
 package com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowAction
 
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix
+import com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowOptions
 import com.axis.system.jenkins.plugins.downstream.yabv.NameNormalizer
 import hudson.model.Item
 import hudson.model.Job
@@ -10,7 +11,7 @@ import hudson.model.Run
 import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
 Matrix matrix = my.buildMatrix()
-div(id: 'downstream-grid',
+div(id: 'build-flow-grid',
     style: "grid-template-columns: repeat(${matrix.getMaxRowWidth() * 2}, auto);") {
   if (matrix.isEmpty() || matrix.numberOfCells == 1) {
     return
@@ -28,12 +29,6 @@ div(id: 'downstream-grid',
       { it instanceof Item ? it.parent : null }
   )
 
-  div(style: 'grid-column: 1 / -1; justify-self: right') {
-    a(id: 'duration-info-switch', href: '#', onclick: 'toggleDurationInfo(); return false;') {
-      span('Toggle Time')
-    }
-  }
-
   CssGridCoordinates gridCoords = new CssGridCoordinates()
   matrix.get().each { row ->
     gridCoords.row++
@@ -44,27 +39,24 @@ div(id: 'downstream-grid',
       }
       gridCoords.col++
       if (cell?.data) {
-        drawCellData(gridCoords, cell.data, nameNormalizer)
+        drawCellData(gridCoords, cell.data, nameNormalizer, my.getBuildFlowOptions())
       }
       gridCoords.col++
     }
   }
 }
 
-script(src: "${rootURL}/plugin/yet-another-build-visualizer/scripts/actions.js",
-    type: 'text/javascript')
-
 private void drawCellData(CssGridCoordinates gridCoords, Object data, NameNormalizer
-    nameNormalizer) {
+    nameNormalizer, BuildFlowOptions options) {
   if (data instanceof Run) {
-    drawBuildInfo(gridCoords, data, nameNormalizer)
+    drawBuildInfo(gridCoords, data, nameNormalizer, options)
   } else if (data instanceof Queue.Item) {
     drawQueueItemInfo(gridCoords, data, nameNormalizer)
   }
 }
 
 private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormalizer
-    nameNormalizer) {
+    nameNormalizer, BuildFlowOptions options) {
   def color = build.iconColor
   def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
   div(class: "build-info ${colorClasses}",
@@ -72,7 +64,22 @@ private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormali
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
       span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
     }
-    span(class: 'duration-info', build.durationString)
+    if (options.showDurationInfo) {
+      span(class: 'duration-info', build.durationString)
+    }
+    if (options.showBuildHistory) {
+      div(class: "build-flow-build-history") {
+        currentBuild = build.previousBuild
+        for (int i = 0; i < 5 && currentBuild != null; i++) {
+          a(href: "${rootURL}/${currentBuild.url}") {
+            def currentColor = currentBuild.iconColor
+            div(class: "build-flow-build-history-dot build-info ${currentColor.name().replace('_', ' ')}",
+                tooltip: currentBuild.displayName)
+          }
+          currentBuild = currentBuild.previousBuild
+        }
+      }
+    }
   }
 }
 
