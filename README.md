@@ -5,6 +5,7 @@ downstream builds in Jenkins.
 ## Screenshot
 
 ![Screenshot](https://raw.githubusercontent.com/jenkinsci/yet-another-build-visualizer-plugin/master/static/yabv.png)
+![Screenshot](https://raw.githubusercontent.com/jenkinsci/yet-another-build-visualizer-plugin/master/static/yabv_toggles.png)
 
 ## Main Features
 
@@ -19,6 +20,8 @@ downstream builds in Jenkins.
 
 * It is compatible with all build types in Jenkins and all known mechanisms of
   triggering downstream builds.
+
+* Switches to enable displaying of build history and build time information.
 
 * Provides visualization without adding actions or tagging builds in Jenkins
   with additional meta-data, hence it is totally non-destructive and safe for
@@ -45,6 +48,9 @@ downstream builds in Jenkins.
   The expected unit is ms. E.g. `-D yabv.buildFlowRefreshInterval=5000`. Notice
   that the unit suffix is not included. Set `yabv.buildFlowRefreshInterval=0` to
   completely disable the dynamic graph updates.
+
+* Click the switches "Toggle Time" and "Toggle Build History" to display
+  additional data.
 
 ## Changelog
 See
