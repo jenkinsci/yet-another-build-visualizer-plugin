@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.9.1:
+* Reverse order of the build history dots.
+
 ## v1.9:
 * **Feature**: Switch to show build execution times.
 * **Feature**: Switch to show dots indicating the build results of the 5 previous builds in each cell.
