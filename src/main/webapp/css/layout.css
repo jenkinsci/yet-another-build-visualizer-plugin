@@ -34,7 +34,9 @@
 }
 
 .build-flow-build-history {
+    align-self: flex-start;
     display: flex;
+    flex-direction: row-reverse;
 }
 
 .build-flow-build-history-dot {
