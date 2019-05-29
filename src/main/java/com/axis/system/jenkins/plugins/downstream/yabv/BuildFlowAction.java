@@ -145,7 +145,12 @@ public class BuildFlowAction implements Action {
 
     @Override
     public Collection<? extends Action> createFor(@Nonnull Job target) {
-      return Collections.singleton(new BuildFlowAction(target.getLastBuild()));
+      Run build = target.getLastBuild();
+      if (build == null) {
+        return Collections.emptyList();
+      } else {
+        return Collections.singleton(new BuildFlowAction(build));
+      }
     }
   }
 }
