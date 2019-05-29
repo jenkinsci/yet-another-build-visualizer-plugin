@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.9.2:
+* Fixed null pointer exception for jobs without builds
+
 ## v1.9.1:
 * Reverse order of the build history dots.
 
