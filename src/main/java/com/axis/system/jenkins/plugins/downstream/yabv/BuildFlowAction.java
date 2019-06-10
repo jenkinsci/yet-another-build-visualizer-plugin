@@ -69,7 +69,7 @@ public class BuildFlowAction implements Action {
     return buildFlowOptions;
   }
 
-  public boolean hasUpstreamOrDownstreamBuilds() {
+  public static boolean hasUpstreamOrDownstreamBuilds(Run target) {
     if (target == null) {
       return false;
     }
