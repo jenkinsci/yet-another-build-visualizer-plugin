@@ -1,7 +1,10 @@
 # Changelog
 
+## v1.9.3:
+* Fix: Ensure Build Flow is dynamically refreshed
+
 ## v1.9.2:
-* Fixed null pointer exception for jobs without builds
+* Fix: Null pointer exception for jobs without builds
 
 ## v1.9.1:
 * Reverse order of the build history dots.
