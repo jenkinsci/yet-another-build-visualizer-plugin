@@ -13,7 +13,7 @@ import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 Matrix matrix = my.buildMatrix()
 div(id: 'build-flow-grid',
     style: "grid-template-columns: repeat(${matrix.getMaxRowWidth() * 2}, auto);") {
-  if (matrix.isEmpty() || matrix.numberOfCells == 1) {
+  if (matrix.isEmpty()) {
     return
   }
   Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
