@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.9.4:
+* Fix: Build flow failed to display on build page
+
 ## v1.9.3:
 * Fix: Ensure Build Flow is dynamically refreshed
 
