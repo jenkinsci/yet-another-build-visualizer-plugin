@@ -69,6 +69,13 @@ public class BuildFlowAction implements Action {
     return buildFlowOptions;
   }
 
+  public boolean shouldDisplayBuildFlow() {
+    return target != null
+        && (hasUpstreamOrDownstreamBuilds(target)
+            || hasUpstreamOrDownstreamBuilds(target.getParent().getLastCompletedBuild())
+            || hasUpstreamOrDownstreamBuilds(target.getParent().getLastBuild()));
+  }
+
   public static boolean hasUpstreamOrDownstreamBuilds(Run target) {
     if (target == null) {
       return false;
