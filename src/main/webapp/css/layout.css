@@ -48,6 +48,12 @@
     z-index: 1;
 }
 
+.build-flow-build-history-dot:after {
+    background-size: 15px !important;
+    opacity: .14 !important;
+}
+
+
 .duration-info {
     color: rgba(0, 0, 0, 0.8);
     font-size: 0.9em !important;
