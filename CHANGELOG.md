@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.9.5:
+* Adjust size of the busy animation for history dots
+
 ## v1.9.4:
 * Fix: Build flow failed to display on build page
 
