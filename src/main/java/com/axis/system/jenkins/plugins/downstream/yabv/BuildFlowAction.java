@@ -56,7 +56,9 @@ public class BuildFlowAction implements Action {
         Cause.UpstreamCause upstreamCause = (Cause.UpstreamCause) cause;
         Job upstreamJob =
             Jenkins.getInstance().getItemByFullName(upstreamCause.getUpstreamProject(), Job.class);
-        if (upstreamJob == null) {
+        // We want to ignore rebuilds, rebuilds have the same parent as
+        // original build, see BuildCache#updateCache().
+        if (upstreamJob == null || build.getParent() == upstreamJob) {
           continue;
         }
         return upstreamJob.getBuildByNumber(upstreamCause.getUpstreamBuild());
