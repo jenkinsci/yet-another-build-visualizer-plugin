@@ -1,7 +1,7 @@
 # Changelog
 
 ## v1.9.6
-* Fix: Wrong build tree was displaied when the root job was rebuilt
+* Fix: Wrong build tree was displayed if the root build of the tree was a rebuild of previous build
 
 ## v1.9.5:
 * Adjust size of the busy animation for history dots
