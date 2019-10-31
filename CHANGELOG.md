@@ -1,5 +1,8 @@
 # Changelog
 
+## v.1.9.7
+* Fix: In rare situations concurrent modification exceptions was thrown if multiple child jobs was started at the same time
+
 ## v1.9.6
 * Fix: Wrong build tree was displayed if the root build of the tree was a rebuild of previous build
 
