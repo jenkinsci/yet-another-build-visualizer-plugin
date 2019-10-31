@@ -77,6 +77,11 @@
       <name>Gustaf Lundh</name>
       <email>gustaf.lundh@axis.com</email>
     </developer>
+    <developer>
+      <id>jonsten</id>
+      <name>Jon Sten</name>
+      <email>jon.sten@axis.com</email>
+    </developer>
   </developers>
 
   <repositories>
@@ -90,7 +95,7 @@
     <dependency>
       <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
       <artifactId>downstream-build-cache</artifactId>
-      <version>1.3</version>
+      <version>1.4</version>
     </dependency>
   </dependencies>
 </project>
