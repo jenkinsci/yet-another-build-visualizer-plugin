@@ -1,5 +1,8 @@
 # Changelog
 
+## v.1.9.8
+* Fix: Updated downstream-build-cache-plugin to v1.4.1 for extra NPE-guards [JENKINS-60504]
+
 ## v.1.9.7
 * Fix: In rare situations concurrent modification exceptions was thrown if multiple child jobs was started at the same time
 
