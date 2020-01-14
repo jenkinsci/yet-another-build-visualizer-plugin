@@ -10,7 +10,7 @@
   <name>Yet Another Build Visualizer</name>
   <description>Visualises the flow of downstream builds on the project and build pages.
   </description>
-  <url>https://wiki.jenkins.io/display/JENKINS/Yet+Another+Build+Visualizer+Plugin</url>
+  <url>https://github.com/jenkinsci/yet-another-build-visualizer-plugin/</url>
 
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
