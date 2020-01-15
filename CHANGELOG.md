@@ -1,9 +1,9 @@
 # Changelog
 
-## v.1.9.8
+## v1.9.8
 * Fix: Updated downstream-build-cache-plugin to v1.4.1 for extra NPE-guards [JENKINS-60504]
 
-## v.1.9.7
+## v1.9.7
 * Fix: In rare situations concurrent modification exceptions was thrown if multiple child jobs was started at the same time
 
 ## v1.9.6
@@ -41,7 +41,6 @@
 
 ## v1.6
 * **Feature:** Ensure that job names are unique enough to be easily identifiable (especially helpful when rendering **multibranch pipeline** builds).
-
 
 ## v1.5.1
 * Fix: NPE if CauseAction was missing from build.
