@@ -1,5 +1,6 @@
 package com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowAction
 
+import com.axis.system.jenkins.plugins.downstream.cache.BuildCache
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix
 import com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowOptions
 import com.axis.system.jenkins.plugins.downstream.yabv.NameNormalizer
@@ -9,6 +10,12 @@ import hudson.model.Queue
 import hudson.model.Run
 
 import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
+
+div(id: 'build-flow-cache-refreshing-warning') {
+  if (BuildCache.cache.isCacheRefreshing()) {
+    span("🛈 Cache is still refreshing, the Build Flow graph may not be complete!")
+  }
+}
 
 Matrix matrix = my.buildMatrix()
 div(id: 'build-flow-grid',

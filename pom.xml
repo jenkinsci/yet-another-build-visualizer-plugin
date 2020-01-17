@@ -15,7 +15,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>2.37</version>
+    <version>3.54</version>
     <relativePath />
   </parent>
 
@@ -95,7 +95,7 @@
     <dependency>
       <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
       <artifactId>downstream-build-cache</artifactId>
-      <version>1.4.1</version>
+      <version>1.5.1</version>
     </dependency>
   </dependencies>
 </project>

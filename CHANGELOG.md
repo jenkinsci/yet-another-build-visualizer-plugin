@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.10
+* **Feature:** Rebuild cache asynchronously, allowing the Jenkins UI to be displayed *much* sooner when starting Jenkins.
+
 ## v1.9.8
 * Fix: Updated downstream-build-cache-plugin to v1.4.1 for extra NPE-guards [JENKINS-60504]
 

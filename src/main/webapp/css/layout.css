@@ -12,6 +12,11 @@
   box-sizing: inherit;
 }
 
+#build-flow-cache-refreshing-warning {
+    font-size: 0.8em;
+    color: #ff5500;
+}
+
 #build-flow-switches {
     display: flex;
     margin-bottom: 2px;
