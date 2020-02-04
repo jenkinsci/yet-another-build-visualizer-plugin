@@ -63,6 +63,7 @@ public class TreeLaminator {
     return true;
   }
 
+  @FunctionalInterface
   public interface ChildrenFunction<N> {
     Iterable<? extends N> children(N node);
   }
