@@ -4,8 +4,10 @@ import static com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.layo
 
 import com.axis.system.jenkins.plugins.downstream.cache.BuildCache;
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix;
+import com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.ChildrenFunction;
 import hudson.Extension;
 import hudson.model.Action;
+import hudson.model.Api;
 import hudson.model.Cause;
 import hudson.model.CauseAction;
 import hudson.model.Job;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.servlet.ServletException;
@@ -22,6 +25,8 @@ import jenkins.model.Jenkins;
 import jenkins.model.TransientActionFactory;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
 
 /**
  * Produces Transient Actions for visualizing the flow of downstream builds.
@@ -29,6 +34,7 @@ import org.kohsuke.stapler.StaplerResponse;
  * @author Gustaf Lundh (C) Axis 2018
  */
 @SuppressWarnings("unused")
+@ExportedBean
 public class BuildFlowAction implements Action {
   private final Run target;
   private final BuildFlowOptions buildFlowOptions;
@@ -37,6 +43,18 @@ public class BuildFlowAction implements Action {
     this.target = run;
     this.buildFlowOptions = new BuildFlowOptions();
   }
+
+  private static final ChildrenFunction getChildrenFunc() {
+    final Queue.Item[] items = Queue.getInstance().getItems();
+    return build -> {
+      List<Object> result = new ArrayList<>();
+      if (build instanceof Run) {
+        result.addAll(BuildCache.getCache().getDownstreamBuilds((Run) build));
+        result.addAll(BuildCache.getDownstreamQueueItems(items, (Run) build));
+      }
+      return result;
+    };
+  };
 
   private static Run getRootUpstreamBuild(@Nonnull Run build) {
     Run parentBuild;
@@ -71,6 +89,32 @@ public class BuildFlowAction implements Action {
     return buildFlowOptions;
   }
 
+  @Exported(visibility = 1)
+  public boolean isAnyBuildOngoing() {
+    return target != null
+        && isChildrenStillBuilding(getRootUpstreamBuild(target), getChildrenFunc());
+  }
+
+  private static boolean isChildrenStillBuilding(Object current, ChildrenFunction children) {
+    Iterator childIter = children.children(current).iterator();
+    while (childIter.hasNext()) {
+      Object child = childIter.next();
+      if (child instanceof Queue.Item) {
+        return true;
+      }
+      if (child instanceof Run && ((Run) child).isBuilding()) {
+        return true;
+      }
+      return isChildrenStillBuilding(child, children);
+    }
+    return false;
+  }
+
+  @Exported(visibility = 1)
+  public boolean isCacheRefreshing() {
+    return BuildCache.getCache().isCacheRefreshing();
+  }
+
   public boolean shouldDisplayBuildFlow() {
     return target != null
         && (hasUpstreamOrDownstreamBuilds(target)
@@ -95,17 +139,7 @@ public class BuildFlowAction implements Action {
     if (target == null) {
       return new Matrix();
     }
-    final Queue.Item[] items = Queue.getInstance().getItems();
-    return layoutTree(
-        (Object) getRootUpstreamBuild(target),
-        b -> {
-          List<Object> result = new ArrayList<>();
-          if (b instanceof Run) {
-            result.addAll(BuildCache.getCache().getDownstreamBuilds((Run) b));
-            result.addAll(BuildCache.getDownstreamQueueItems(items, (Run) b));
-          }
-          return result;
-        });
+    return layoutTree((Object) getRootUpstreamBuild(target), getChildrenFunc());
   }
 
   @Override
@@ -131,6 +165,11 @@ public class BuildFlowAction implements Action {
         Boolean.parseBoolean(req.getParameter("showBuildHistory")));
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);
+  }
+
+  /** Remote API access. */
+  public Api getApi() {
+    return new Api(this);
   }
 
   @Extension
