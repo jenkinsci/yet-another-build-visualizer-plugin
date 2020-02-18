@@ -95,7 +95,7 @@
     <dependency>
       <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
       <artifactId>downstream-build-cache</artifactId>
-      <version>1.5.1</version>
+      <version>1.5.2</version>
     </dependency>
   </dependencies>
 </project>
