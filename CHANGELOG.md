@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.11
+* **Feature:** Add /api/ endpoints for indicating if any builds are still ongoing
+* Fix: Update downstream-build-cache dependency to v1.5.2 for performance fixes
+
 ## v1.10
 * **Feature:** Rebuild cache asynchronously, allowing the Jenkins UI to be displayed *much* sooner when starting Jenkins.
 
