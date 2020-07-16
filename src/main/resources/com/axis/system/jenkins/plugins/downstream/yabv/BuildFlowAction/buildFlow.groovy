@@ -4,6 +4,7 @@ import com.axis.system.jenkins.plugins.downstream.cache.BuildCache
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix
 import com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowOptions
 import com.axis.system.jenkins.plugins.downstream.yabv.NameNormalizer
+import hudson.Util
 import hudson.model.Item
 import hudson.model.Job
 import hudson.model.Queue
@@ -81,7 +82,7 @@ private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormali
           a(href: "${rootURL}/${currentBuild.url}") {
             def currentColor = currentBuild.iconColor
             div(class: "build-flow-build-history-dot build-info ${currentColor.name().replace('_', ' ')}",
-                tooltip: currentBuild.displayName)
+                tooltip: Util.xmlEscape(currentBuild.displayName))
           }
           currentBuild = currentBuild.previousBuild
         }
