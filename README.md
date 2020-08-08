@@ -16,15 +16,16 @@ downstream builds in Jenkins.
   screenshot above, the build currently visited is highlighted using a thick
   dashed border.
 
-* Since the full chain is always shown, the plugin provides easy and fast
-  navigation between all executed builds in the pipeline.
+* Since the full chain is shown, the plugin provides easy and fast navigation
+  between all executed builds in the pipeline.
 
 * Sports nice and modern interface.
 
 * It is compatible with all build types in Jenkins and all known mechanisms of
   triggering downstream builds.
 
-* Switches to enable displaying of build history and build time information.
+* Switches to enable displaying of build history, build time information, and
+  to show/hide upstream builds.
 
 * Provides visualization without adding actions or tagging builds in Jenkins
   with additional meta-data, hence it is totally non-destructive and safe for
