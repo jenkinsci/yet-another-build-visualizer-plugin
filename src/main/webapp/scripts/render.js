@@ -9,7 +9,7 @@ function loadBuildFlow() {
       Behaviour.applySubtree(newGrid);
     }
   };
-  var queryParams = ["showDurationInfo", "showBuildHistory", "showUpstreamBuilds"].map(function(name) {
+  var queryParams = Object.keys(buildFlowOptions).map(function(name) {
     return `${name}=${isOptionActive(name)}`
   });
   xhttp.open("GET", `yabv/buildFlow?${queryParams.join("&")}`, true);
@@ -28,11 +28,23 @@ function getCookie(name) {
   return value ? value.pop() : '';
 }
 
-function isOptionActive(option) {
-  return getCookie("yabv." + option) === "true";
+function setOptionActive(option, active) {
+  setCookie("yabv." + option, active ? "true" : "false");
 }
+
+function isOptionActive(option) {
+  var value = getCookie("yabv." + option);
+  if (value === "true") {
+    return true;
+  } else if (value === "false") {
+    return false;
+  } else {
+    return buildFlowOptions[option].defaultValue;
+  }
+}
+
 function toggleOption(switchA, option) {
-  setCookie("yabv." + option, isOptionActive(option) ? "false" : "true");
+  setOptionActive(option, !isOptionActive(option));
   setSwitchActiveState(switchA, option);
   loadBuildFlow();
 }
@@ -45,7 +57,7 @@ function setSwitchActiveState(switchA, option) {
   }
 }
 
-function createOptionSwitch(name, option) {
+function createOptionSwitch(option) {
   var switchA = document.createElement("a");
   switchA.onclick = function() { toggleOption(switchA, option); return false; };
   switchA.classList.add("build-flow-switch");
@@ -53,15 +65,30 @@ function createOptionSwitch(name, option) {
   switchA.href = "#";
 
   var switchSpan = document.createElement("span");
-  switchSpan.innerHTML = name;
+  switchSpan.innerHTML = buildFlowOptions[option].title
 
   switchA.appendChild(switchSpan);
   document.getElementById("build-flow-switches").appendChild(switchA);
 }
 
-createOptionSwitch("Toggle Time", "showDurationInfo");
-createOptionSwitch("Toggle Build History", "showBuildHistory");
-createOptionSwitch("Toggle Upstream Builds", "showUpstreamBuilds");
+var buildFlowOptions = {
+  "showDurationInfo": {
+    title: "Toggle Time",
+    defaultValue: false
+  },
+  "showBuildHistory": {
+    title: "Toggle Build History",
+    defaultValue: false
+  },
+  "showUpstreamBuilds": {
+    title: "Toggle Upstream Builds",
+    defaultValue: true
+  }
+};
+
+for (option in buildFlowOptions) {
+  createOptionSwitch(option);
+}
 
 if (typeof buildFlowRefreshInterval !== 'undefined' &&
   Number.isInteger(parseInt(buildFlowRefreshInterval)) &&
