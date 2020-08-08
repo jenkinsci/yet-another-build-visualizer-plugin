@@ -9,11 +9,10 @@ function loadBuildFlow() {
       Behaviour.applySubtree(newGrid);
     }
   };
-  var showDurationInfo = getCookie("yabv.showDurationInfo");
-  var showBuildHistory = getCookie("yabv.showBuildHistory");
-  xhttp.open("GET",
-    `yabv/buildFlow?showDurationInfo=${showDurationInfo}&showBuildHistory=${showBuildHistory}`,
-    true);
+  var queryParams = ["showDurationInfo", "showBuildHistory", "showUpstreamBuilds"].map(function(name) {
+    return `${name}=${isOptionActive(name)}`
+  });
+  xhttp.open("GET", `yabv/buildFlow?${queryParams.join("&")}`, true);
   xhttp.send();
 }
 
@@ -25,21 +24,32 @@ function setCookie(name, value) {
 }
 
 function getCookie(name) {
-    var value = document.cookie.match('(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return value ? value.pop() : '';
+  var value = document.cookie.match('(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return value ? value.pop() : '';
 }
 
-function toggleOption(name) {
-  var show = getCookie("yabv." + name);
-  show = (show === "true" ? show = "false" : show = "true")
-  setCookie("yabv." + name, show);
+function isOptionActive(option) {
+  return getCookie("yabv." + option) === "true";
+}
+function toggleOption(switchA, option) {
+  setCookie("yabv." + option, isOptionActive(option) ? "false" : "true");
+  setSwitchActiveState(switchA, option);
   loadBuildFlow();
+}
+
+function setSwitchActiveState(switchA, option) {
+  if (isOptionActive(option)) {
+    switchA.classList.add('ACTIVE');
+  } else {
+    switchA.classList.remove('ACTIVE');
+  }
 }
 
 function createOptionSwitch(name, option) {
   var switchA = document.createElement("a");
-  switchA.onclick = function() { toggleOption(option); return false; };
+  switchA.onclick = function() { toggleOption(switchA, option); return false; };
   switchA.classList.add("build-flow-switch");
+  setSwitchActiveState(switchA, option);
   switchA.href = "#";
 
   var switchSpan = document.createElement("span");
@@ -51,6 +61,7 @@ function createOptionSwitch(name, option) {
 
 createOptionSwitch("Toggle Time", "showDurationInfo");
 createOptionSwitch("Toggle Build History", "showBuildHistory");
+createOptionSwitch("Toggle Upstream Builds", "showUpstreamBuilds");
 
 if (typeof buildFlowRefreshInterval !== 'undefined' &&
   Number.isInteger(parseInt(buildFlowRefreshInterval)) &&

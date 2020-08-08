@@ -54,7 +54,7 @@ public class BuildFlowAction implements Action {
       }
       return result;
     };
-  };
+  }
 
   private static Run getRootUpstreamBuild(@Nonnull Run build) {
     Run parentBuild;
@@ -139,7 +139,8 @@ public class BuildFlowAction implements Action {
     if (target == null) {
       return new Matrix();
     }
-    return layoutTree((Object) getRootUpstreamBuild(target), getChildrenFunc());
+    Run root = buildFlowOptions.isShowUpstreamBuilds() ? getRootUpstreamBuild(target) : target;
+    return layoutTree(root, getChildrenFunc());
   }
 
   @Override
@@ -163,6 +164,8 @@ public class BuildFlowAction implements Action {
         Boolean.parseBoolean(req.getParameter("showDurationInfo")));
     buildFlowOptions.setShowBuildHistory(
         Boolean.parseBoolean(req.getParameter("showBuildHistory")));
+    buildFlowOptions.setShowUpstreamBuilds(
+        Boolean.parseBoolean(req.getParameter("showUpstreamBuilds")));
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);
   }
