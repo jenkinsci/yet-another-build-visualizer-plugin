@@ -9,11 +9,10 @@ function loadBuildFlow() {
       Behaviour.applySubtree(newGrid);
     }
   };
-  var showDurationInfo = getCookie("yabv.showDurationInfo");
-  var showBuildHistory = getCookie("yabv.showBuildHistory");
-  xhttp.open("GET",
-    `yabv/buildFlow?showDurationInfo=${showDurationInfo}&showBuildHistory=${showBuildHistory}`,
-    true);
+  var queryParams = Object.keys(buildFlowOptions).map(function(name) {
+    return `${name}=${isOptionActive(name)}`
+  });
+  xhttp.open("GET", `yabv/buildFlow?${queryParams.join("&")}`, true);
   xhttp.send();
 }
 
@@ -25,32 +24,71 @@ function setCookie(name, value) {
 }
 
 function getCookie(name) {
-    var value = document.cookie.match('(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return value ? value.pop() : '';
+  var value = document.cookie.match('(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return value ? value.pop() : '';
 }
 
-function toggleOption(name) {
-  var show = getCookie("yabv." + name);
-  show = (show === "true" ? show = "false" : show = "true")
-  setCookie("yabv." + name, show);
+function setOptionActive(option, active) {
+  setCookie("yabv." + option, active ? "true" : "false");
+}
+
+function isOptionActive(option) {
+  var value = getCookie("yabv." + option);
+  if (value === "true") {
+    return true;
+  } else if (value === "false") {
+    return false;
+  } else {
+    return buildFlowOptions[option].defaultValue;
+  }
+}
+
+function toggleOption(switchA, option) {
+  setOptionActive(option, !isOptionActive(option));
+  setSwitchActiveState(switchA, option);
   loadBuildFlow();
 }
 
-function createOptionSwitch(name, option) {
+function setSwitchActiveState(switchA, option) {
+  if (isOptionActive(option)) {
+    switchA.classList.add('ACTIVE');
+  } else {
+    switchA.classList.remove('ACTIVE');
+  }
+}
+
+function createOptionSwitch(option) {
   var switchA = document.createElement("a");
-  switchA.onclick = function() { toggleOption(option); return false; };
+  switchA.onclick = function() { toggleOption(switchA, option); return false; };
   switchA.classList.add("build-flow-switch");
+  setSwitchActiveState(switchA, option);
   switchA.href = "#";
 
   var switchSpan = document.createElement("span");
-  switchSpan.innerHTML = name;
+  switchSpan.innerHTML = buildFlowOptions[option].title
 
   switchA.appendChild(switchSpan);
   document.getElementById("build-flow-switches").appendChild(switchA);
 }
 
-createOptionSwitch("Toggle Time", "showDurationInfo");
-createOptionSwitch("Toggle Build History", "showBuildHistory");
+var buildFlowOptions = {
+  "showDurationInfo": {
+    title: "Toggle Time",
+    defaultValue: false
+  },
+  "showBuildHistory": {
+    title: "Toggle Build History",
+    defaultValue: false
+  },
+  "showUpstreamBuilds": {
+    title: "Toggle Upstream Builds",
+    defaultValue: true
+  }
+};
+
+for (option in buildFlowOptions) {
+  createOptionSwitch(option);
+}
 
 if (typeof buildFlowRefreshInterval !== 'undefined' &&
   Number.isInteger(parseInt(buildFlowRefreshInterval)) &&
