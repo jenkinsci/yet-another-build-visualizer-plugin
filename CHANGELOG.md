@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.12
+* **Feature**: Switch to hide upstream builds [JENKINS-63299]
+* Fix: Security fixes [SECURITY-1940]
+
 ## v1.11
 * **Feature:** Add /api/ endpoints for indicating if any builds are still ongoing
 * Fix: Update downstream-build-cache dependency to v1.5.2 for performance fixes
