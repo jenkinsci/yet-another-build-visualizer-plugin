@@ -14,7 +14,7 @@ import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
 div(id: 'build-flow-cache-refreshing-warning') {
   if (BuildCache.cache.isCacheRefreshing()) {
-    span("🛈 Cache is still refreshing, the Build Flow graph may not be complete!")
+    span("⚠ Cache is still refreshing, the Build Flow graph may not be complete!")
   }
 }
 
