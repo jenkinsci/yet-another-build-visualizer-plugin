@@ -42,8 +42,8 @@ public class NameNormalizer<T> {
         // until we find a name previously not reserved.
         //
         // Later on, when visualizing a job name, we will add path elements (parents) to the job
-        // name until we find a name which is not blacklisted. Wh   ven found, we have a job name
-        // that we know will be unique in the build flow graph and easily identifiable to the user.
+        // name until we find a name which is not blacklisted. When found, we have a job name that
+        // we know will be unique in the build flow graph and easily identifiable to the user.
         if (reserved.add(formattedName)) {
           break;
         } else {
