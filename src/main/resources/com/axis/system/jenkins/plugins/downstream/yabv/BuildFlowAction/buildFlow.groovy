@@ -27,8 +27,8 @@ div(id: 'build-flow-grid',
   Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
     if (data instanceof Run) {
       data.parent
-    } else if (data instanceof Queue.Item) {
-      data.task
+    } else if (data instanceof Queue.Item && data.task instanceof Job) {
+      (Job) data.task
     }
   }.toSet()
 
