@@ -113,6 +113,14 @@ public class Matrix<T> {
       this.data = null;
     }
 
+    public Arrow getArrow() {
+      return arrow;
+    }
+
+    public T getData() {
+      return data;
+    }
+
     @Override
     public String toString() {
       return "Entry{arrow=" + arrow + ", data=" + data + '}';
