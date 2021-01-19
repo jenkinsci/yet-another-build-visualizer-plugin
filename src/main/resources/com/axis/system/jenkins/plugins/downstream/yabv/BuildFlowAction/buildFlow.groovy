@@ -37,38 +37,33 @@ div(id: 'build-flow-grid',
       { it instanceof Item ? it.parent : null }
   )
 
-  CssGridCoordinates gridCoords = new CssGridCoordinates()
   matrix.get().each { row ->
-    gridCoords.row++
-    gridCoords.col = 1
     row.each { cell ->
       if (cell?.arrow) {
-        drawArrow(gridCoords, cell.arrow)
+        drawArrow(cell.arrow)
       }
-      gridCoords.col++
       if (cell?.data) {
-        drawCellData(gridCoords, cell.data, nameNormalizer, my.getBuildFlowOptions())
+        drawCellData(cell.data, nameNormalizer, my.getBuildFlowOptions())
       }
-      gridCoords.col++
+      div() {}
     }
   }
 }
 
-private void drawCellData(CssGridCoordinates gridCoords, Object data, NameNormalizer
+private void drawCellData(Object data, NameNormalizer
     nameNormalizer, BuildFlowOptions options) {
   if (data instanceof Run) {
-    drawBuildInfo(gridCoords, data, nameNormalizer, options)
+    drawBuildInfo(data, nameNormalizer, options)
   } else if (data instanceof Queue.Item) {
-    drawQueueItemInfo(gridCoords, data, nameNormalizer)
+    drawQueueItemInfo(data, nameNormalizer)
   }
 }
 
-private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormalizer
+private void drawBuildInfo(Run build, NameNormalizer
     nameNormalizer, BuildFlowOptions options) {
   def color = build.iconColor
   def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
-  div(class: "build-info ${colorClasses}",
-      style: gridCoords.cssStyleString) {
+  div(class: "build-info ${colorClasses}") {
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
       span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
     }
@@ -91,20 +86,17 @@ private void drawBuildInfo(CssGridCoordinates gridCoords, Run build, NameNormali
   }
 }
 
-private void drawQueueItemInfo(CssGridCoordinates gridCoords,
-                               Queue.Item item,
+private void drawQueueItemInfo(Queue.Item item,
                                NameNormalizer nameNormalizer) {
-  div(class: 'build-info NOTBUILT ANIME',
-      style: gridCoords.cssStyleString) {
+  div(class: 'build-info NOTBUILT ANIME') {
     a(class: 'model-link inside', href: "${rootURL}/${item.task.url}") {
       span("${nameNormalizer.getNormalizedName(item.task)} (Queued)")
     }
   }
 }
 
-private void drawArrow(CssGridCoordinates gridCoords, Arrow arrow) {
-  div(class: 'arrow-wrapper',
-      style: gridCoords.cssStyleString) {
+private void drawArrow(Arrow arrow) {
+  div(class: 'arrow-wrapper') {
     svg(viewBox: '0 0 100 100',
         preserveAspectRatio: 'none',
         width: '100%',
@@ -136,14 +128,5 @@ private void drawArrow(CssGridCoordinates gridCoords, Arrow arrow) {
           stroke: '#333',
           fill: 'transparent')
     }
-  }
-}
-
-class CssGridCoordinates {
-  int col = 1
-  int row = 1
-
-  String getCssStyleString() {
-    "grid-row-start: ${row}; grid-column-start: ${col}"
   }
 }
