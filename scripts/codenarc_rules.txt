@@ -131,7 +131,7 @@ ruleset {
     
     // rulesets/dry.xml
     DuplicateListLiteral 
-    DuplicateMapLiteral 
+    // DuplicateMapLiteral Axis: Does not work for HTML-attributes in groovy
     DuplicateNumberLiteral 
     // DuplicateStringLiteral Axis: Not very useful to us
     
@@ -230,7 +230,7 @@ ruleset {
     ExplicitArrayListInstantiation 
     ExplicitCallToAndMethod 
     ExplicitCallToCompareToMethod 
-    ExplicitCallToDivMethod 
+    // ExplicitCallToDivMethod Axis: Because div() is used for building html pages.
     ExplicitCallToEqualsMethod 
     ExplicitCallToGetAtMethod 
     ExplicitCallToLeftShiftMethod 

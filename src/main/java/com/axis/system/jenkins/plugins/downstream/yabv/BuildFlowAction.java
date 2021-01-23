@@ -1,7 +1,5 @@
 package com.axis.system.jenkins.plugins.downstream.yabv;
 
-import static com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.layoutTree;
-
 import com.axis.system.jenkins.plugins.downstream.cache.BuildCache;
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix;
 import com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.ChildrenFunction;
@@ -13,20 +11,25 @@ import hudson.model.CauseAction;
 import hudson.model.Job;
 import hudson.model.Queue;
 import hudson.model.Run;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import javax.annotation.Nonnull;
-import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import jenkins.model.TransientActionFactory;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
+
+import javax.annotation.Nonnull;
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import static com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.layoutTree;
 
 /**
  * Produces Transient Actions for visualizing the flow of downstream builds.
@@ -135,12 +138,61 @@ public class BuildFlowAction implements Action {
     return target;
   }
 
+  public Run getRootUpstreamBuild() {
+    if (target == null) {
+      return null;
+    }
+    return buildFlowOptions.isShowUpstreamBuilds() ? getRootUpstreamBuild(target) : target;
+  }
+
   public Matrix buildMatrix() {
     if (target == null) {
       return new Matrix();
     }
-    Run root = buildFlowOptions.isShowUpstreamBuilds() ? getRootUpstreamBuild(target) : target;
+    Run root = getRootUpstreamBuild();
     return layoutTree(root, getChildrenFunc());
+  }
+
+  /**
+   * Returns all items in the build flow, populated from the root. Which target is root depends
+   * on {@link BuildFlowOptions#isShowUpstreamBuilds()}.
+   *
+   * @param lookBack number of historic build flows to fetch, based on the root target's previous
+   *     builds.
+   * @return A list of sets of Objects. Each set represents all items in a flow, starting from the
+   *     root. The first set is calculated from the root, the next set is from the root target's
+   *     previous build and so on.
+   */
+  public List<Set<Object>> getAllItemsInFlow(int lookBack) {
+    if (target == null) {
+      return Collections.emptyList();
+    }
+
+    Run root = getRootUpstreamBuild();
+    List<Set<Object>> result = new ArrayList<>();
+    for (; lookBack > 0 && root != null; lookBack--) {
+      Set<Object> itemsInFlow = getAllDownstreamItems(root);
+      itemsInFlow.add(root);
+      result.add(itemsInFlow);
+      root = root.getPreviousBuild();
+    }
+    return result;
+  }
+
+  private static Set<Object> getAllDownstreamItems(Run current) {
+    Set<Object> resultSet = new HashSet<>();
+    addAllDownstreamItems(resultSet, current, getChildrenFunc());
+    return resultSet;
+  }
+
+  private static void addAllDownstreamItems(
+      Set<Object> resultSet, Object current, ChildrenFunction children) {
+    Iterator childIter = children.children(current).iterator();
+    while (childIter.hasNext()) {
+      Object child = childIter.next();
+      resultSet.add(child);
+      addAllDownstreamItems(resultSet, child, children);
+    }
   }
 
   @Override
@@ -166,6 +218,7 @@ public class BuildFlowAction implements Action {
         Boolean.parseBoolean(req.getParameter("showBuildHistory")));
     buildFlowOptions.setShowUpstreamBuilds(
         Boolean.parseBoolean(req.getParameter("showUpstreamBuilds")));
+    buildFlowOptions.setFlattenView(Boolean.parseBoolean(req.getParameter("flattenView")));
     rsp.setContentType("text/html;charset=UTF-8");
     req.getView(this, "buildFlow.groovy").forward(req, rsp);
   }

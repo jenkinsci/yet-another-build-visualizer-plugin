@@ -14,69 +14,118 @@ import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
 div(id: 'build-flow-cache-refreshing-warning') {
   if (BuildCache.cache.isCacheRefreshing()) {
-    span("⚠ Cache is still refreshing, the Build Flow graph may not be complete!")
+    span('⚠ Cache is still refreshing, the Build Flow graph may not be complete!')
   }
 }
 
-Matrix matrix = my.buildMatrix()
-div(id: 'build-flow-grid',
-    style: "grid-template-columns: repeat(${matrix.getMaxRowWidth() * 2}, auto);") {
-  if (matrix.isEmpty()) {
-    return
+// To get rid of warnings where argument types could not be inferred
+BuildFlowOptions options = my.buildFlowOptions
+
+if (options.flattenView) {
+  List<Set<Object>> itemsInFlow = my.getAllItemsInFlow(options.showBuildHistory ? 10 : 1)
+  Job rootJob = my.rootUpstreamBuild?.parent
+  List<Job> allJobs = itemsInFlow.flatten().collect { data ->
+    getJob(data)
+  }.unique().sort { a, b ->
+    if (a == rootJob) { return -1 }
+    if (b == rootJob) { return 1 }
+    return a.fullDisplayName <=> b.fullDisplayName
   }
-  Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
-    if (data instanceof Run) {
-      data.parent
-    } else if (data instanceof Queue.Item && data.task instanceof Job) {
-      (Job) data.task
+  div(id: 'build-flow-grid',
+      style: "grid-auto-flow: column; grid-template-rows: repeat(${allJobs.size()}, auto);") {
+    if (itemsInFlow.isEmpty()) {
+      return
     }
-  }.toSet()
 
-  NameNormalizer nameNormalizer = new NameNormalizer(jobs,
-      { it.displayName },
-      { it instanceof Item ? it.parent : null }
-  )
+    NameNormalizer nameNormalizer = getNameNormalizer(allJobs.toSet())
 
-  matrix.get().each { row ->
-    row.each { cell ->
-      if (cell?.arrow) {
-        drawArrow(cell.arrow)
+    allJobs.each { job ->
+      drawJobInfo(job, nameNormalizer)
+    }
+    itemsInFlow.each { items ->
+      allJobs.each { job ->
+        div(style: 'display: flex; flex-direction: column; margin: 0.2em 0;') {
+          items.findAll { item ->
+            job == getJob(item)
+          }.each { item ->
+            drawCellData(item, nameNormalizer, options)
+          }
+        }
       }
-      if (cell?.data) {
-        drawCellData(cell.data, nameNormalizer, my.getBuildFlowOptions())
+    }
+  }
+} else {
+  Matrix matrix = my.buildMatrix()
+  div(id: 'build-flow-grid',
+      style: "grid-template-columns: repeat(${matrix.maxRowWidth * 2}, auto);") {
+    if (matrix.isEmpty()) {
+      return
+    }
+
+    Set<Job> jobs = matrix.cellDataAsSet.collect { data ->
+      getJob(data)
+    }.toSet()
+
+    NameNormalizer nameNormalizer = getNameNormalizer(jobs)
+
+    matrix.get().each { row ->
+      row.each { cell ->
+        drawArrow(cell?.arrow)
+        drawCellData(cell?.data, nameNormalizer, options)
       }
-      div() {}
     }
   }
 }
 
-private void drawCellData(Object data, NameNormalizer
-    nameNormalizer, BuildFlowOptions options) {
+private static Job getJob(Object data) {
+  if (data instanceof Run) {
+    return data.parent
+  } else if (data instanceof Queue.Item && data.task instanceof Job) {
+    return (Job) data.task
+  }
+  return null
+}
+
+private static NameNormalizer getNameNormalizer(Set<Job> jobs) {
+  return new NameNormalizer(jobs, {
+    it.displayName
+  }, {
+    it instanceof Item ? it.parent : null
+  })
+}
+
+private void drawCellData(Object data, NameNormalizer nameNormalizer, BuildFlowOptions options) {
   if (data instanceof Run) {
     drawBuildInfo(data, nameNormalizer, options)
   } else if (data instanceof Queue.Item) {
-    drawQueueItemInfo(data, nameNormalizer)
+    drawQueueItemInfo(data, nameNormalizer, options)
+  } else {
+    div { }
   }
 }
 
-private void drawBuildInfo(Run build, NameNormalizer
-    nameNormalizer, BuildFlowOptions options) {
+private void drawBuildInfo(Run build, NameNormalizer nameNormalizer, BuildFlowOptions options) {
   def color = build.iconColor
   def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
-  div(class: "build-info ${colorClasses}") {
+  div(class: "build-info ${colorClasses} ${options.flattenView ? 'FLAT' : ''}") {
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
-      span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
+      if (options.flattenView) {
+        span("${build.displayName}")
+      } else {
+        span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
+      }
     }
     if (options.showDurationInfo) {
       span(class: 'duration-info', build.durationString)
     }
-    if (options.showBuildHistory) {
-      div(class: "build-flow-build-history") {
+    if (options.showBuildHistory && !my.buildFlowOptions.flattenView) {
+      div(class: 'build-flow-build-history') {
         currentBuild = build.previousBuild
         for (int i = 0; i < 5 && currentBuild != null; i++) {
           a(href: "${rootURL}/${currentBuild.url}") {
             def currentColor = currentBuild.iconColor
-            div(class: "build-flow-build-history-dot build-info ${currentColor.name().replace('_', ' ')}",
+            div(class: 'build-flow-build-history-dot build-info ' +
+                currentColor.name().replace('_', ' '),
                 tooltip: Util.xmlEscape(currentBuild.displayName))
           }
           currentBuild = currentBuild.previousBuild
@@ -86,16 +135,36 @@ private void drawBuildInfo(Run build, NameNormalizer
   }
 }
 
-private void drawQueueItemInfo(Queue.Item item,
-                               NameNormalizer nameNormalizer) {
-  div(class: 'build-info NOTBUILT ANIME') {
+private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer, BuildFlowOptions
+    options) {
+  div(class: "build-info NOTBUILT ANIME ${options.flattenView ? 'FLAT' : ''}") {
     a(class: 'model-link inside', href: "${rootURL}/${item.task.url}") {
-      span("${nameNormalizer.getNormalizedName(item.task)} (Queued)")
+      if (options.flattenView) {
+        span('Queued')
+      } else {
+        span("${nameNormalizer.getNormalizedName(item.task)} (Queued)")
+      }
+    }
+    if (options.showDurationInfo) {
+      span(class: 'duration-info', item.inQueueForString)
+    }
+  }
+}
+
+private void drawJobInfo(Job job, NameNormalizer nameNormalizer) {
+  def colorClasses = job.lastBuild.iconColor.name().replace('_', ' ')
+  div(class: "job-info ${colorClasses}") {
+    a(class: 'model-link inside', href: "${rootURL}/${job.url}") {
+      span("${nameNormalizer.getNormalizedName(job)}")
     }
   }
 }
 
 private void drawArrow(Arrow arrow) {
+  if (arrow == null) {
+    div { }
+    return
+  }
   div(class: 'arrow-wrapper') {
     svg(viewBox: '0 0 100 100',
         preserveAspectRatio: 'none',
@@ -124,7 +193,7 @@ private void drawArrow(Arrow arrow) {
       }
       path(d: pathDefinition,
           'vector-effect': 'non-scaling-stroke',
-          'stroke-width': 2,
+          'stroke-width': '2',
           stroke: '#333',
           fill: 'transparent')
     }

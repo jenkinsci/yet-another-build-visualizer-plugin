@@ -15,7 +15,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>3.54</version>
+    <version>4.15</version>
     <relativePath />
   </parent>
 
@@ -58,7 +58,7 @@
   </scm>
 
   <properties>
-    <jenkins.version>2.73.3</jenkins.version>
+    <jenkins.version>2.176.4</jenkins.version>
     <java.level>8</java.level>
     <jenkins-test-harness.version>2.38</jenkins-test-harness.version>
     <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>
@@ -95,7 +95,7 @@
     <dependency>
       <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
       <artifactId>downstream-build-cache</artifactId>
-      <version>1.5.2</version>
+      <version>1.6</version>
     </dependency>
   </dependencies>
 </project>
