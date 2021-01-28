@@ -104,10 +104,16 @@ private void drawCellData(Object data, NameNormalizer nameNormalizer, BuildFlowO
   }
 }
 
+private static String getCssColorFromBuild(Run build) {
+  return build.iconColor.name().replace('_', ' ')
+}
+
 private void drawBuildInfo(Run build, NameNormalizer nameNormalizer, BuildFlowOptions options) {
-  def color = build.iconColor
-  def colorClasses = color.name().replace('_', ' ') + ' ' + (build == my.target ? 'SELECTED' : '')
-  div(class: "build-info ${colorClasses} ${options.flattenView ? 'FLAT' : ''}") {
+  def colorClasses = getCssColorFromBuild(build) +
+      (build == my.target ? ' SELECTED' : '') +
+      (options.flattenView ? ' FLAT' : '')
+
+  div(class: "build-info ${colorClasses}") {
     a(class: 'model-link inside', href: "${rootURL}/${build.url}") {
       if (options.flattenView) {
         span("${build.displayName}")
@@ -152,7 +158,7 @@ private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer, B
 }
 
 private void drawJobInfo(Job job, NameNormalizer nameNormalizer) {
-  def colorClasses = job.lastBuild.iconColor.name().replace('_', ' ')
+  def colorClasses = getCssColorFromBuild(job.lastBuild)
   div(class: "job-info ${colorClasses}") {
     a(class: 'model-link inside', href: "${rootURL}/${job.url}") {
       span("${nameNormalizer.getNormalizedName(job)}")

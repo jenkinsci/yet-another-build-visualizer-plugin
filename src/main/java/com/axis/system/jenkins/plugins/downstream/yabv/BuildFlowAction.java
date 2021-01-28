@@ -59,6 +59,13 @@ public class BuildFlowAction implements Action {
     };
   }
 
+  public Run getRootUpstreamBuild() {
+    if (target == null) {
+      return null;
+    }
+    return buildFlowOptions.isShowUpstreamBuilds() ? getRootUpstreamBuild(target) : target;
+  }
+
   private static Run getRootUpstreamBuild(@Nonnull Run build) {
     Run parentBuild;
     while ((parentBuild = getUpstreamBuild(build)) != null) {
@@ -95,7 +102,7 @@ public class BuildFlowAction implements Action {
   @Exported(visibility = 1)
   public boolean isAnyBuildOngoing() {
     return target != null
-        && isChildrenStillBuilding(getRootUpstreamBuild(target), getChildrenFunc());
+        && isChildrenStillBuilding(getRootUpstreamBuild(), getChildrenFunc());
   }
 
   private static boolean isChildrenStillBuilding(Object current, ChildrenFunction children) {
@@ -138,24 +145,17 @@ public class BuildFlowAction implements Action {
     return target;
   }
 
-  public Run getRootUpstreamBuild() {
-    if (target == null) {
-      return null;
-    }
-    return buildFlowOptions.isShowUpstreamBuilds() ? getRootUpstreamBuild(target) : target;
-  }
-
   public Matrix buildMatrix() {
-    if (target == null) {
+    Run root = getRootUpstreamBuild();
+    if (root == null) {
       return new Matrix();
     }
-    Run root = getRootUpstreamBuild();
     return layoutTree(root, getChildrenFunc());
   }
 
   /**
-   * Returns all items in the build flow, populated from the root. Which target is root depends
-   * on {@link BuildFlowOptions#isShowUpstreamBuilds()}.
+   * Returns all items in the build flow, populated from the root. Which target is root depends on
+   * {@link BuildFlowOptions#isShowUpstreamBuilds()}.
    *
    * @param lookBack number of historic build flows to fetch, based on the root target's previous
    *     builds.
@@ -164,11 +164,10 @@ public class BuildFlowAction implements Action {
    *     previous build and so on.
    */
   public List<Set<Object>> getAllItemsInFlow(int lookBack) {
-    if (target == null) {
+    Run root = getRootUpstreamBuild();
+    if (root == null) {
       return Collections.emptyList();
     }
-
-    Run root = getRootUpstreamBuild();
     List<Set<Object>> result = new ArrayList<>();
     for (; lookBack > 0 && root != null; lookBack--) {
       Set<Object> itemsInFlow = getAllDownstreamItems(root);
