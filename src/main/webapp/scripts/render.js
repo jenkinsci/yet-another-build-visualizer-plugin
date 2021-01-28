@@ -83,6 +83,10 @@ var buildFlowOptions = {
   "showUpstreamBuilds": {
     title: "Toggle Upstream Builds",
     defaultValue: true
+  },
+  "flattenView": {
+    title: "Flatten Graph",
+    defaultValue: false
   }
 };
 
