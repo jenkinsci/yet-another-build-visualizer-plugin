@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.13
+* **Feature**: New "Flattened View", which represents all builds as a matrix (without the edges). Using this much more compact view, a lot more history can be visualized in a smaller area.
+
 ## v1.12
 * **Feature**: Switch to hide upstream builds [JENKINS-63299]
 * Fix: Security fixes [SECURITY-1940]
