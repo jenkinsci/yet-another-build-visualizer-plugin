@@ -57,7 +57,7 @@ if (options.flattenView) {
 } else {
   Matrix matrix = my.buildMatrix()
   div(id: 'build-flow-grid',
-      style: "grid-template-columns: repeat(${matrix.maxRowWidth * 2}, auto);") {
+      style: "grid-template-columns: 0 0 repeat(${matrix.maxRowWidth * 2 - 1}, auto);") {
     if (matrix.isEmpty()) {
       return
     }
@@ -69,7 +69,8 @@ if (options.flattenView) {
     NameNormalizer nameNormalizer = getNameNormalizer(jobs)
 
     matrix.get().each { row ->
-      row.each { cell ->
+      div(style: 'grid-column-start: 1') { }
+      row.each { Matrix.Entry cell ->
         drawArrow(cell?.arrow)
         drawCellData(cell?.data, nameNormalizer, options)
       }

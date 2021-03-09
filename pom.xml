@@ -22,14 +22,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.gmaven</groupId>
-        <artifactId>gmaven-plugin</artifactId>
-        <configuration>
-          <providerSelection>1.8</providerSelection>
-          <source />
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
@@ -58,7 +50,7 @@
   </scm>
 
   <properties>
-    <jenkins.version>2.176.4</jenkins.version>
+    <jenkins.version>2.204.1</jenkins.version>
     <java.level>8</java.level>
     <jenkins-test-harness.version>2.38</jenkins-test-harness.version>
     <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>

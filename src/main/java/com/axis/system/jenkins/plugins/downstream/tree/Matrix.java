@@ -157,6 +157,12 @@ public class Matrix<T> {
       public String toString() {
         return "┗";
       }
+    },
+    NONE {
+      @Override
+      public String toString() {
+        return "";
+      }
     }
   }
 }

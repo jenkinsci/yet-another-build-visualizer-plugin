@@ -9,7 +9,7 @@ import java.util.Iterator;
 public class TreeLaminator {
   public static <T> Matrix<T> layoutTree(T rootNode, ChildrenFunction<T> children) {
     Matrix<T> matrix = new Matrix<>();
-    layoutTree(rootNode, children, matrix, 0, 0, null);
+    layoutTree(rootNode, children, matrix, 0, 0, Arrow.NONE);
     return matrix;
   }
 
