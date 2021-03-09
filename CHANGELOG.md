@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.14
+* Fix: Major issue where the Build Flow displayed misaligned rows [JENKINS-65051]
+
 ## v1.13
 * **Feature**: New "Flattened View", which represents all builds as a matrix (without the edges). Using this much more compact view, a lot more history can be visualized in a smaller area.
 
