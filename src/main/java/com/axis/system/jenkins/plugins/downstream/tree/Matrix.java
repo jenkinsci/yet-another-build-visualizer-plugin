@@ -161,7 +161,7 @@ public class Matrix<T> {
     NONE {
       @Override
       public String toString() {
-        return "";
+        return " ";
       }
     }
   }
