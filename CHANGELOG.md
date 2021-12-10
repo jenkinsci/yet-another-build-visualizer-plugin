@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.15
+* Update Downstream-Build-Cache to 1.7
+
 ## v1.14
 * Fix: Major issue where the Build Flow displayed misaligned rows [JENKINS-65051]
 

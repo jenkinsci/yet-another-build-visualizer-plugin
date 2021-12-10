@@ -50,7 +50,7 @@
   </scm>
 
   <properties>
-    <jenkins.version>2.204.1</jenkins.version>
+    <jenkins.version>2.204.6</jenkins.version>
     <java.level>8</java.level>
     <jenkins-test-harness.version>2.38</jenkins-test-harness.version>
     <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>
@@ -87,7 +87,7 @@
     <dependency>
       <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
       <artifactId>downstream-build-cache</artifactId>
-      <version>1.6</version>
+      <version>1.7</version>
     </dependency>
   </dependencies>
 </project>
