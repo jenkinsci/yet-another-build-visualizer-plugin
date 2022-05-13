@@ -87,6 +87,10 @@ var buildFlowOptions = {
   "flattenView": {
     title: "Flatten Graph",
     defaultValue: false
+  },
+  "showFullNames": {
+      title: "Toggle Full Names",
+      defaultValue: false
   }
 };
 

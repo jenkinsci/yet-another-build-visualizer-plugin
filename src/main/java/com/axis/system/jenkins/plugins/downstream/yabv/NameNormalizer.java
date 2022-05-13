@@ -12,10 +12,16 @@ public class NameNormalizer<T> {
   Set<String> blacklist;
   NameFunction<T> nameFunc;
   ParentFunction<T> parentFunc;
+  boolean showFullNames;
 
   public NameNormalizer(Set<T> items, NameFunction<T> nameFunc, ParentFunction<T> parentFunc) {
+    this (items, nameFunc, parentFunc, false);
+  }
+
+  public NameNormalizer(Set<T> items, NameFunction<T> nameFunc, ParentFunction<T> parentFunc, boolean showFullNames) {
     this.nameFunc = nameFunc;
     this.parentFunc = parentFunc;
+    this.showFullNames = showFullNames;
     blacklist = generateBlacklist(items, nameFunc, parentFunc);
   }
 
@@ -58,12 +64,15 @@ public class NameNormalizer<T> {
     List<String> nameSegments = new ArrayList<>();
     for (; item != null; item = parentFunc.parent(item)) {
       nameSegments.add(0, parentFunc.parent(item) != null ? nameFunc.name(item) : ROOT_NAME);
-      String formattedName = String.join(NAME_SEPARATOR, nameSegments);
-      if (!blacklist.contains(formattedName)) {
-        return formattedName;
+      if(!this.showFullNames) {
+        String formattedName = String.join(NAME_SEPARATOR, nameSegments);
+        if (!blacklist.contains(formattedName)) {
+          return formattedName;
+        }
       }
     }
     // Should never happen unless an item we iterated over provided an empty String for name.
+    // Or showFullNames is set to tru
     // In this case we just return what we have.
     return String.join(NAME_SEPARATOR, nameSegments);
   }
