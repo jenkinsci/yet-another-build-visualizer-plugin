@@ -4,7 +4,7 @@
 
   <groupId>com.axis.system.jenkins.plugins.downstream</groupId>
   <artifactId>yet-another-build-visualizer</artifactId>
-  <version>1.16</version>
+  <version>1.17-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Yet Another Build Visualizer</name>
@@ -45,7 +45,7 @@
     <developerConnection>
       scm:git:https://github.com/jenkinsci/yet-another-build-visualizer-plugin
     </developerConnection>
-    <tag>v1.16</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/jenkinsci/yet-another-build-visualizer-plugin</url>
   </scm>
 
