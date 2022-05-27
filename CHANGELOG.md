@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.16
+* **Feature:** Add button to show/toggle the full build name. Thanks to Jan G!
+
 ## v1.15
 * Update Downstream-Build-Cache to 1.7
 
