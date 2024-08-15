@@ -211,6 +211,8 @@ public class BuildFlowAction implements Action {
 
   public void doBuildFlow(StaplerRequest req, StaplerResponse rsp)
       throws IOException, ServletException {
+    buildFlowOptions.setShowDescription(
+        Boolean.parseBoolean(req.getParameter("showDescription")));
     buildFlowOptions.setShowDurationInfo(
         Boolean.parseBoolean(req.getParameter("showDurationInfo")));
     buildFlowOptions.setShowBuildHistory(

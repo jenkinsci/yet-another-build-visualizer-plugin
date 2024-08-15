@@ -91,6 +91,10 @@ var buildFlowOptions = {
   "showFullNames": {
       title: "Toggle Full Names",
       defaultValue: false
+  },
+  "showDescription": {
+    title: "Toggle Description",
+    defaultValue: false
   }
 };
 

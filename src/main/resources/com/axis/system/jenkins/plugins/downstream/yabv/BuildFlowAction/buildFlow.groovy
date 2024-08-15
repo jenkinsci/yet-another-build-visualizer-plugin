@@ -123,6 +123,9 @@ private void drawBuildInfo(Run build, NameNormalizer nameNormalizer, BuildFlowOp
         span("${nameNormalizer.getNormalizedName(build.parent)} ${build.displayName}")
       }
     }
+    if (options.showDescription && build.description) {
+      span(class: 'description-info', build.description)
+    }
     if (options.showDurationInfo) {
       span(class: 'duration-info', build.durationString)
     }

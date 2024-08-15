@@ -61,6 +61,16 @@
     opacity: .14 !important;
 }
 
+.description-info {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 0.9em !important;
+    font-style: italic;
+    max-width: 32ch;
+    word-wrap: break-word;
+    line-height: 0.9em !important;
+    margin: 1px 0 5px 0;
+}
+
 .duration-info {
     color: rgba(0, 0, 0, 0.8);
     font-size: 0.9em !important;
