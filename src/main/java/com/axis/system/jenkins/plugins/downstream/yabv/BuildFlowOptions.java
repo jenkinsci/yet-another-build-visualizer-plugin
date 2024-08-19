@@ -6,6 +6,7 @@ public class BuildFlowOptions {
   private boolean showUpstreamBuilds;
   private boolean flattenView;
   private boolean showFullNames;
+  private boolean showDescription;
 
   public BuildFlowOptions() {
     showBuildHistory = false;
@@ -13,6 +14,7 @@ public class BuildFlowOptions {
     showUpstreamBuilds = false;
     flattenView = false;
     showFullNames = false;
+    showDescription = false;
   }
 
   public BuildFlowOptions(
@@ -20,12 +22,14 @@ public class BuildFlowOptions {
       boolean showDurationInfo,
       boolean showUpstreamBuilds,
       boolean flattenView,
-      boolean showFullNames) {
+      boolean showFullNames,
+      boolean showDescription) {
     this.showBuildHistory = showBuildHistory;
     this.showDurationInfo = showDurationInfo;
     this.showUpstreamBuilds = showUpstreamBuilds;
     this.flattenView = flattenView;
     this.showFullNames = showFullNames;
+    this.showDescription = showDescription;
   }
 
   public boolean isShowBuildHistory() {
@@ -68,6 +72,14 @@ public class BuildFlowOptions {
     this.showFullNames = showFullNames;
   }
 
+  public boolean isShowDescription() {
+    return showDescription;
+  }
+
+  public void setShowDescription(boolean showDescription) {
+    this.showDescription = showDescription;
+  }
+
   @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer("BuildFlowOptions{");
@@ -76,6 +88,7 @@ public class BuildFlowOptions {
     sb.append(", showUpstreamBuilds=").append(showUpstreamBuilds);
     sb.append(", flattenView=").append(flattenView);
     sb.append(", showFullNames=").append(showFullNames);
+    sb.append(", showDescription=").append(showDescription);
     sb.append('}');
     return sb.toString();
   }
