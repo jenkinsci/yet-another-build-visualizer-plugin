@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.17
+* **Feature:** Add button to show/toggle the build description. Thanks to olivgat!
+
 ## v1.16
 * **Feature:** Add button to show/toggle the full build name. Thanks to Jan G!
 
