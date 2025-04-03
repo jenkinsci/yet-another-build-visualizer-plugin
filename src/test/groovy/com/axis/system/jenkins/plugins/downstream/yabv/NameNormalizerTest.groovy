@@ -1,6 +1,7 @@
 package com.axis.system.jenkins.plugins.downstream.yabv
 
 import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * @see com.axis.system.jenkins.plugins.downstream.yabv.NameNormalizer

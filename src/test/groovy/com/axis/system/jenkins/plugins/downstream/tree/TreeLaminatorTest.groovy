@@ -1,6 +1,7 @@
 package com.axis.system.jenkins.plugins.downstream.tree
 
 import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.getShallowDepth
 import static com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.layoutTree
