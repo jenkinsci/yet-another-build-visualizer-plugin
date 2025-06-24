@@ -15,7 +15,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.51</version>
+    <version>5.17</version>
     <relativePath />
   </parent>
 
@@ -50,8 +50,8 @@
   </scm>
 
   <properties>
-    <jenkins.version>2.346.3</jenkins.version>
-    <jenkins-test-harness.version>1900.v9e128c991ef4</jenkins-test-harness.version>
+    <jenkins.version>2.492.3</jenkins.version>
+    <jenkins-test-harness.version>2462.v7cd38b_7a_361b_</jenkins-test-harness.version>
     <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>
   </properties>
 
@@ -61,19 +61,6 @@
       <url>http://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
-
-  <developers>
-    <developer>
-      <id>GustafL</id>
-      <name>Gustaf Lundh</name>
-      <email>gustaf.lundh@axis.com</email>
-    </developer>
-    <developer>
-      <id>jonsten</id>
-      <name>Jon Sten</name>
-      <email>jon.sten@axis.com</email>
-    </developer>
-  </developers>
 
   <repositories>
     <repository>

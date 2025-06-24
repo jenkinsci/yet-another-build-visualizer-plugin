@@ -13,13 +13,13 @@ import hudson.model.Queue;
 import hudson.model.Run;
 import jenkins.model.Jenkins;
 import jenkins.model.TransientActionFactory;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.StaplerRequest2;
+import org.kohsuke.stapler.StaplerResponse2;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
 import javax.annotation.Nonnull;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -209,7 +209,7 @@ public class BuildFlowAction implements Action {
     return null;
   }
 
-  public void doBuildFlow(StaplerRequest req, StaplerResponse rsp)
+  public void doBuildFlow(StaplerRequest2 req, StaplerResponse2 rsp)
       throws IOException, ServletException {
     buildFlowOptions.setShowDescription(
         Boolean.parseBoolean(req.getParameter("showDescription")));
