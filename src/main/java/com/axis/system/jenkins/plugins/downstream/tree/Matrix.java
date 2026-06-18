@@ -1,10 +1,10 @@
 package com.axis.system.jenkins.plugins.downstream.tree;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 /**
  * An expandable and variable width matrix backed by ArrayLists.

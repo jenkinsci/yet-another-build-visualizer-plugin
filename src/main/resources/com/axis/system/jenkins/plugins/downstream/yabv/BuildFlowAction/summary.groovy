@@ -3,7 +3,7 @@ package com.axis.system.jenkins.plugins.downstream.yabv.BuildFlowAction
 def t = namespace(lib.JenkinsTagLib)
 
 if (my.shouldDisplayBuildFlow()) {
-  t.summary(icon: '/plugin/yet-another-build-visualizer/icons/summary-icon.png') {
+  t.summary(icon: 'symbol-graph-outline plugin-yet-another-build-visualizer') {
     include(my, 'buildFlowJsCss.groovy')
   }
 }

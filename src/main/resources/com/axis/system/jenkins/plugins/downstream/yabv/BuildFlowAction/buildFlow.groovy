@@ -14,7 +14,7 @@ import static com.axis.system.jenkins.plugins.downstream.tree.Matrix.Arrow
 
 div(id: 'build-flow-cache-refreshing-warning') {
   if (BuildCache.cache.isCacheRefreshing()) {
-    span('⚠ Cache is still refreshing, the Build Flow graph may not be complete!')
+    span(class: 'warning', 'Cache is still refreshing, the Build Flow graph may not be complete!')
   }
 }
 
@@ -107,6 +107,9 @@ private void drawCellData(Object data, NameNormalizer nameNormalizer, BuildFlowO
 }
 
 private static String getCssColorFromBuild(Run build) {
+  if (build == null) {
+    return 'NOTBUILT'
+  }
   return build.iconColor.name().replace('_', ' ')
 }
 
@@ -146,8 +149,7 @@ private void drawBuildInfo(Run build, NameNormalizer nameNormalizer, BuildFlowOp
   }
 }
 
-private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer, BuildFlowOptions
-    options) {
+private void drawQueueItemInfo(Queue.Item item, NameNormalizer nameNormalizer, BuildFlowOptions options) {
   div(class: "build-info NOTBUILT ANIME ${options.flattenView ? 'FLAT' : ''}") {
     a(class: 'model-link inside', href: "${rootURL}/${item.task.url}") {
       if (options.flattenView) {
@@ -205,7 +207,7 @@ private void drawArrow(Arrow arrow) {
       path(d: pathDefinition,
           'vector-effect': 'non-scaling-stroke',
           'stroke-width': '2',
-          stroke: '#333',
+          stroke: 'currentColor',
           fill: 'transparent')
     }
   }

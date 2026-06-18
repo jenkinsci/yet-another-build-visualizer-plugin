@@ -3,6 +3,7 @@ package com.axis.system.jenkins.plugins.downstream.yabv;
 import com.axis.system.jenkins.plugins.downstream.cache.BuildCache;
 import com.axis.system.jenkins.plugins.downstream.tree.Matrix;
 import com.axis.system.jenkins.plugins.downstream.tree.TreeLaminator.ChildrenFunction;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.Action;
 import hudson.model.Api;
@@ -18,7 +19,6 @@ import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
-import javax.annotation.Nonnull;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class BuildFlowAction implements Action {
     return buildFlowOptions.isShowUpstreamBuilds() ? getRootUpstreamBuild(target) : target;
   }
 
-  private static Run getRootUpstreamBuild(@Nonnull Run build) {
+  private static Run getRootUpstreamBuild(@NonNull Run build) {
     Run parentBuild;
     while ((parentBuild = getUpstreamBuild(build)) != null) {
       build = parentBuild;
@@ -74,7 +74,7 @@ public class BuildFlowAction implements Action {
     return build;
   }
 
-  private static Run getUpstreamBuild(@Nonnull Run build) {
+  private static Run getUpstreamBuild(@NonNull Run build) {
     CauseAction causeAction = build.getAction(CauseAction.class);
     if (causeAction == null) {
       return null;
@@ -253,7 +253,7 @@ public class BuildFlowAction implements Action {
     }
 
     @Override
-    public Collection<? extends Action> createFor(@Nonnull Job target) {
+    public Collection<? extends Action> createFor(@NonNull Job target) {
       Run build = target.getLastBuild();
       if (build == null) {
         return Collections.emptyList();

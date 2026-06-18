@@ -15,7 +15,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.51</version>
+    <version>6.2189.v695a_c41f5249</version>
     <relativePath />
   </parent>
 
@@ -50,8 +50,7 @@
   </scm>
 
   <properties>
-    <jenkins.version>2.346.3</jenkins.version>
-    <jenkins-test-harness.version>1900.v9e128c991ef4</jenkins-test-harness.version>
+    <jenkins.version>2.528.3</jenkins.version>
     <scmCommentPrefix>maven-release-plugin:</scmCommentPrefix>
   </properties>
 

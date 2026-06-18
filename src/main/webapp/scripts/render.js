@@ -1,19 +1,20 @@
 function loadBuildFlow() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var currentGrid = document.getElementById("build-flow-grid-holder");
-      var newGrid = currentGrid.cloneNode(false)
-      newGrid.innerHTML = this.responseText;
-      currentGrid.parentNode.replaceChild(newGrid, currentGrid)
-      Behaviour.applySubtree(newGrid);
-    }
-  };
   var queryParams = Object.keys(buildFlowOptions).map(function(name) {
     return `${name}=${isOptionActive(name)}`
   });
-  xhttp.open("GET", `yabv/buildFlow?${queryParams.join("&")}`, true);
-  xhttp.send();
+
+  fetch(`yabv/buildFlow?${queryParams.join("&")}`)
+    .then(function(response) {
+      if (response.status === 200) {
+        return response.text().then(function(responseText) {
+          var currentGrid = document.getElementById("build-flow-grid-holder");
+          var newGrid = currentGrid.cloneNode(false)
+          newGrid.innerHTML = responseText;
+          currentGrid.parentNode.replaceChild(newGrid, currentGrid)
+          Behaviour.applySubtree(newGrid);
+        });
+      }
+    });
 }
 
 function setCookie(name, value) {
@@ -50,17 +51,13 @@ function toggleOption(switchA, option) {
 }
 
 function setSwitchActiveState(switchA, option) {
-  if (isOptionActive(option)) {
-    switchA.classList.add('ACTIVE');
-  } else {
-    switchA.classList.remove('ACTIVE');
-  }
+  switchA.classList.toggle('jenkins-button--primary', isOptionActive(option));
 }
 
 function createOptionSwitch(option) {
-  var switchA = document.createElement("a");
+  var switchA = document.createElement("button");
   switchA.onclick = function() { toggleOption(switchA, option); return false; };
-  switchA.classList.add("build-flow-switch");
+  switchA.classList.add("build-flow-switch", "jenkins-button");
   setSwitchActiveState(switchA, option);
   switchA.href = "#";
 
@@ -102,6 +99,7 @@ for (option in buildFlowOptions) {
   createOptionSwitch(option);
 }
 
+const buildFlowRefreshInterval = document.getElementById("build-flow-root").dataset.refreshInterval;
 if (typeof buildFlowRefreshInterval !== 'undefined' &&
   Number.isInteger(parseInt(buildFlowRefreshInterval)) &&
   buildFlowRefreshInterval > 0) {
